@@ -150,7 +150,7 @@ function workCardMarkup(item, i) {
   }
 
   // placeholder — работа ещё не загружена
-  const colors = item.colors || ["#7C5CFF", "#FF4FA3"];
+  const colors = item.colors || ["#8A8A96", "#3A3A42"];
   return `
     <div class="work is-placeholder" data-idx="${i}" style="background:linear-gradient(135deg, ${hex2rgba(
     colors[0],
