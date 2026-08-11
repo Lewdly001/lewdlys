@@ -114,8 +114,6 @@ function renderPortfolio() {
 }
 
 function workCardMarkup(item, i) {
-  const tagLabel = CATEGORY_LABELS[item.category] || item.category || "";
-
   if (item.type === "group") {
     const subs = item.items || [];
     const shown = subs.slice(0, 4);
@@ -127,10 +125,6 @@ function workCardMarkup(item, i) {
       <div class="work work-group cells-${shown.length}" data-idx="${i}">
         <div class="group-grid">${cellsHtml}</div>
         <span class="media-badge">${subs.length} шт.</span>
-        <div class="work-overlay">
-          <span class="work-tag">${escapeHtml(tagLabel)}</span>
-          <span class="work-title">${escapeHtml(item.title || "")}</span>
-        </div>
       </div>`;
   }
 
@@ -138,34 +132,18 @@ function workCardMarkup(item, i) {
     return `
       <div class="work" data-idx="${i}">
         <div class="work-media"><div class="media-lottie" data-lottie-src="${item.src}"></div></div>
-        <span class="media-badge">Lottie</span>
-        <div class="work-overlay">
-          <span class="work-tag">${escapeHtml(tagLabel)}</span>
-          <span class="work-title">${escapeHtml(item.title || "")}</span>
-        </div>
       </div>`;
   }
   if (item.type === "video") {
     return `
       <div class="work" data-idx="${i}">
         <div class="work-media"><video class="media-video" src="${item.src}" muted loop playsinline preload="metadata"></video></div>
-        <span class="media-badge">MP4</span>
-        <div class="work-overlay">
-          <span class="work-tag">${escapeHtml(tagLabel)}</span>
-          <span class="work-title">${escapeHtml(item.title || "")}</span>
-        </div>
       </div>`;
   }
   if (item.type === "svg" || item.type === "image") {
-    const badge = item.type === "svg" ? "SVG" : "PNG";
     return `
       <div class="work" data-idx="${i}">
         <div class="work-media"><img class="media-image" src="${item.src}" loading="lazy" alt="${escapeHtml(item.title || "")}"></div>
-        <span class="media-badge">${badge}</span>
-        <div class="work-overlay">
-          <span class="work-tag">${escapeHtml(tagLabel)}</span>
-          <span class="work-title">${escapeHtml(item.title || "")}</span>
-        </div>
       </div>`;
   }
 
@@ -176,9 +154,7 @@ function workCardMarkup(item, i) {
     colors[0],
     0.18
   )}, ${hex2rgba(colors[1], 0.12)})">
-      <span class="work-tag">${escapeHtml(tagLabel)}</span>
       <span class="work-emoji">${item.emoji || "✨"}</span>
-      <span class="work-title">${escapeHtml(item.title || "")}</span>
     </div>`;
 }
 
@@ -222,7 +198,7 @@ function initMediaForItems(items, grid) {
     const anim = lottie.loadAnimation({
       container: el,
       path: el.getAttribute("data-lottie-src"),
-      renderer: "svg",
+      renderer: "canvas",
       loop: true,
       autoplay: false,
     });
@@ -273,7 +249,7 @@ function openLightbox(item) {
     holder.className = "media-lottie";
     content.appendChild(holder);
     lightboxAnims.push(
-      lottie.loadAnimation({ container: holder, path: item.src, renderer: "svg", loop: true, autoplay: true })
+      lottie.loadAnimation({ container: holder, path: item.src, renderer: "canvas", loop: true, autoplay: true })
     );
   } else if (item.type === "video") {
     const video = document.createElement("video");
@@ -304,7 +280,7 @@ function buildGalleryCell(sub, groupTitle) {
     holder.className = "media-lottie";
     cell.appendChild(holder);
     lightboxAnims.push(
-      lottie.loadAnimation({ container: holder, path: sub.src, renderer: "svg", loop: true, autoplay: true })
+      lottie.loadAnimation({ container: holder, path: sub.src, renderer: "canvas", loop: true, autoplay: true })
     );
   } else if (sub.type === "video") {
     const video = document.createElement("video");
