@@ -1,0 +1,44 @@
+[
+  {
+    "title": "Звезда",
+    "category": "animation",
+    "type": "lottie",
+    "src": "assets/portfolio/star-pulse.json",
+    "emoji": "⭐"
+  },
+  {
+    "title": "Пульс",
+    "category": "animation",
+    "type": "lottie",
+    "src": "assets/portfolio/dot-bounce.json",
+    "emoji": "🔵"
+  },
+  {
+    "title": "Цветовой луп",
+    "category": "animation",
+    "type": "video",
+    "src": "assets/portfolio/hue-demo.mp4",
+    "emoji": "🎬"
+  },
+  {
+    "title": "Лисёнок (SVG)",
+    "category": "emoji",
+    "type": "svg",
+    "src": "assets/portfolio/fox-sticker.svg",
+    "emoji": "🦊"
+  },
+  {
+    "title": "Лисёнок (PNG)",
+    "category": "emoji",
+    "type": "image",
+    "src": "assets/portfolio/fox-sticker.png",
+    "emoji": "🦊"
+  },
+  {
+    "title": "NFT Gift «Кристалл»",
+    "category": "gift",
+    "type": "placeholder",
+    "emoji": "💎",
+    "colors": ["#5EEAD4", "#7C5CFF"]
+  }
+]
