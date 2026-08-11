@@ -1,12 +1,12 @@
 [
   {
-    "title": "Набор Кот Ямакси»",
+    "title": "Набор «Кот Ямакси»",
     "category": "emoji",
     "type": "group",
     "items": [
       { "type": "lottie", "src": "assets/portfolio/glitch.json" },
       { "type": "lottie", "src": "assets/portfolio/lightning.json" },
-      { "type": "lottie", "src": "assets/portfolio/anger.json" },
+      { "type": "lottie", "src": "assets/portfolio/anger.json" }
     ]
   },
   {
