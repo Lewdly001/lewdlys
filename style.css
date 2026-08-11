@@ -132,7 +132,12 @@ header.scrolled{
   border:1px solid var(--glass-line-strong);
   display:flex;align-items:center;justify-content:center;
   font-size:16px;
-  transform:rotate(-6deg);
+  overflow:hidden;
+}
+.logo-img{
+  width:70%;
+  height:70%;
+  object-fit:contain;
 }
 
 nav{display:flex;align-items:center;gap:28px;}
@@ -526,6 +531,75 @@ section{margin-top:110px;}
   color:var(--text-dim);
   font-size:14px;
 }
+
+/* ---------- PORTFOLIO GROUPS (несколько работ в одной карточке) ---------- */
+
+.work-group{padding:0;}
+.group-grid{
+  position:absolute;
+  inset:0;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  grid-template-rows:repeat(2,1fr);
+  gap:2px;
+}
+.work-group.cells-1 .group-grid{grid-template-columns:1fr;grid-template-rows:1fr;}
+.work-group.cells-2 .group-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:1fr;}
+.work-group.cells-3 .group-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(2,1fr);}
+
+.group-cell{
+  position:relative;
+  overflow:hidden;
+  background:var(--bg-soft);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.group-cell .media-lottie{width:78%;height:78%;}
+.group-cell img,
+.group-cell video{width:100%;height:100%;object-fit:cover;}
+.group-cell-emoji{font-size:26px;}
+.group-more{
+  position:absolute;
+  inset:0;
+  background:rgba(7,7,10,.72);
+  backdrop-filter:blur(2px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Unbounded',sans-serif;
+  font-weight:700;
+  font-size:17px;
+  color:var(--text);
+}
+
+/* ---------- LIGHTBOX GALLERY (все работы группы разом) ---------- */
+
+.lightbox-content.lightbox-gallery{
+  max-width:min(92vw,900px);
+  max-height:82vh;
+  width:100%;
+  aspect-ratio:auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+  gap:14px;
+  padding:22px;
+  overflow-y:auto;
+  align-content:start;
+}
+.gallery-cell{
+  aspect-ratio:1/1;
+  background:var(--glass-fill);
+  border:1px solid var(--glass-line);
+  border-radius:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+.gallery-cell img,
+.gallery-cell video{width:100%;height:100%;object-fit:contain;}
+.gallery-cell .media-lottie{width:80%;height:80%;}
 
 /* ---------- LIGHTBOX ---------- */
 

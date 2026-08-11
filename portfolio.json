@@ -1,10 +1,20 @@
 [
   {
-    "title": "Кот с глюком",
+    "title": "Набор Кот Ямакси»",
+    "category": "emoji",
+    "type": "group",
+    "items": [
+      { "type": "lottie", "src": "assets/portfolio/glitch.json" },
+      { "type": "lottie", "src": "assets/portfolio/lightning.json" },
+      { "type": "lottie", "src": "assets/portfolio/anger.json" },
+    ]
+  },
+  {
+    "title": "Звезда",
     "category": "animation",
     "type": "lottie",
-    "src": "assets/portfolio/glukYAMAKSI.json",
-    "emoji": "🐈"
+    "src": "assets/portfolio/star-pulse.json",
+    "emoji": "⭐"
   },
   {
     "title": "Пульс",
@@ -19,20 +29,6 @@
     "type": "video",
     "src": "assets/portfolio/hue-demo.mp4",
     "emoji": "🎬"
-  },
-  {
-    "title": "Лисёнок (SVG)",
-    "category": "emoji",
-    "type": "svg",
-    "src": "assets/portfolio/fox-sticker.svg",
-    "emoji": "🦊"
-  },
-  {
-    "title": "Лисёнок (PNG)",
-    "category": "emoji",
-    "type": "image",
-    "src": "assets/portfolio/fox-sticker.png",
-    "emoji": "🦊"
   },
   {
     "title": "NFT Gift «Кристалл»",
