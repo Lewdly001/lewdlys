@@ -27,6 +27,7 @@
   --glass-blur: blur(22px) saturate(140%);
 
   --radius:26px;
+  --ease: cubic-bezier(.22,1,.36,1);
 }
 
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -66,6 +67,17 @@ body::after{
   max-width:1160px;
   margin:0 auto;
   padding:0 25px;
+}
+
+/* ---------- ПЛАВНОЕ ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ ---------- */
+.reveal{
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity .8s var(--ease), transform .8s var(--ease);
+}
+.reveal.visible{
+  opacity:1;
+  transform:translateY(0);
 }
 
 a{color:inherit;}
@@ -108,7 +120,7 @@ header{
   border-left:0;
   border-right:0;
   background:rgba(7,7,10,.55);
-  transition:background .3s, border-color .3s;
+  transition:background .4s var(--ease), border-color .4s var(--ease);
 }
 header.scrolled{
   border-bottom-color:var(--glass-line-strong);
@@ -178,7 +190,7 @@ nav a:hover{color:var(--text);}
   font-size:15px;
   border:1px solid rgba(255,255,255,.5);
   box-shadow:0 1px 0 rgba(255,255,255,.6) inset, 0 18px 40px -18px rgba(0,0,0,.7);
-  transition:transform .3s, box-shadow .3s, background .3s;
+  transition:transform .4s var(--ease), box-shadow .4s var(--ease), background .4s var(--ease);
 }
 .button:hover{
   transform:translateY(-4px);
@@ -308,6 +320,13 @@ nav a:hover{color:var(--text);}
   flex-shrink:0;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.1);
 }
+.m-emoji{
+  display:inline-block;
+  animation:spin 9s linear infinite;
+}
+@keyframes spin{
+  to{transform:rotate(360deg);}
+}
 
 /* ---------- SECTIONS ---------- */
 
@@ -341,7 +360,7 @@ section{margin-top:110px;}
 .card{
   border-radius:var(--radius);
   padding:32px;
-  transition:.35s;
+  transition:transform .4s var(--ease), border-color .4s var(--ease), background .4s var(--ease);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.07), 0 20px 40px -28px rgba(0,0,0,.7);
 }
 .card:hover{
@@ -407,6 +426,7 @@ section{margin-top:110px;}
   margin-bottom:22px;
 }
 .price span{font-size:16px;color:var(--text-dim);font-weight:500;}
+.price-alt{font-size:13.5px;color:var(--text-dim);margin:-16px 0 22px;}
 
 .price-card ul{list-style:none;margin-bottom:26px;flex-grow:1;}
 .price-card li{
@@ -459,7 +479,7 @@ section{margin-top:110px;}
   position:relative;
   overflow:hidden;
   cursor:pointer;
-  transition:transform .35s, border-color .35s;
+  transition:transform .4s var(--ease), border-color .4s var(--ease);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.07), 0 20px 40px -28px rgba(0,0,0,.7);
 }
 .work:hover{transform:translateY(-6px);border-color:var(--glass-line-strong);}
@@ -649,12 +669,18 @@ section{margin-top:110px;}
 .lightbox-content .media-lottie{width:min(70vw,420px);height:min(70vw,420px);}
 
 .lightbox-content.lightbox-gallery{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
-  gap:14px;
-  align-content:start;
+  display:flex;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scroll-behavior:smooth;
+  gap:16px;
+  scrollbar-width:none;
 }
+.lightbox-content.lightbox-gallery::-webkit-scrollbar{display:none;}
 .gallery-cell{
+  flex:0 0 min(78vw,360px);
+  scroll-snap-align:center;
   aspect-ratio:1/1;
   background:rgba(255,255,255,.04);
   border:1px solid var(--glass-line);
@@ -667,6 +693,24 @@ section{margin-top:110px;}
 .gallery-cell img,
 .gallery-cell video{width:100%;height:100%;max-width:none;max-height:none;object-fit:contain;border-radius:0;}
 .gallery-cell .media-lottie{width:80%;height:80%;}
+
+.lightbox-dots{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  padding:14px 0 2px;
+}
+.lightbox-dot{
+  width:7px;height:7px;
+  border-radius:50%;
+  background:var(--glass-line-strong);
+  cursor:pointer;
+  transition:background .3s var(--ease), transform .3s var(--ease);
+}
+.lightbox-dot.active{
+  background:var(--text);
+  transform:scale(1.35);
+}
 
 /* ---------- PRICE TABS ---------- */
 
@@ -782,5 +826,8 @@ footer a:hover{color:var(--text);}
 }
 
 @media(prefers-reduced-motion:reduce){
-  .float-tile,.marquee-track,.hero h1 .grad{animation:none;}
+  .float-tile,.marquee-track,.hero h1 .grad,.m-emoji{animation:none;}
+  .reveal{opacity:1;transform:none;transition:none;}
+  html{scroll-behavior:auto;}
+  .lightbox-content.lightbox-gallery{scroll-behavior:auto;}
 }

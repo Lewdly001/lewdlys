@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   loadPortfolio();
   loadPricing();
   wireLightbox();
+  observeReveal(".card, .section-head, .chat, .cta-strip");
 });
 
 /* ---------- ССЫЛКИ ИЗ CONFIG.JS ---------- */
@@ -41,6 +42,28 @@ function wireHeaderScroll() {
   window.addEventListener("scroll", () => {
     header.classList.toggle("scrolled", window.scrollY > 10);
   });
+}
+
+/* Плавное появление блоков при прокрутке — добавляет .reveal/.visible,
+   остальное (переход) делает CSS. Можно звать повторно на новых элементах. */
+function observeReveal(selector, root) {
+  const scope = root || document;
+  const els = scope.querySelectorAll(selector);
+  els.forEach((el) => {
+    if (!el.classList.contains("reveal")) el.classList.add("reveal");
+  });
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          io.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15 }
+  );
+  scope.querySelectorAll(selector + ".reveal:not(.visible)").forEach((el) => io.observe(el));
 }
 
 /* ---------- ПОРТФОЛИО ---------- */
@@ -111,6 +134,7 @@ function renderPortfolio() {
   });
 
   initMediaForItems(items, grid);
+  observeReveal(".work", grid);
 }
 
 // Подпись поверх карточки (категория + название) — использует готовые классы
@@ -250,20 +274,26 @@ function wireLightbox() {
 }
 
 let lightboxAnims = [];
+let lightboxDotObserver = null;
 
 function openLightbox(item) {
   const box = document.getElementById("lightbox");
   const content = document.getElementById("lightbox-content");
   const title = document.getElementById("lightbox-title");
+  const dotsBox = document.getElementById("lightbox-dots");
   if (!box || !content) return;
 
   content.innerHTML = "";
   content.classList.remove("lightbox-gallery");
+  if (dotsBox) dotsBox.innerHTML = "";
+  if (lightboxDotObserver) lightboxDotObserver.disconnect();
   title.textContent = item.title || "";
 
   if (item.type === "group") {
     content.classList.add("lightbox-gallery");
-    (item.items || []).forEach((sub) => content.appendChild(buildGalleryCell(sub, item.title)));
+    const subs = item.items || [];
+    subs.forEach((sub) => content.appendChild(buildGalleryCell(sub, item.title)));
+    if (subs.length > 1) buildLightboxDots(subs.length, content, dotsBox);
   } else if (item.type === "lottie" && typeof lottie !== "undefined") {
     const holder = document.createElement("div");
     holder.className = "media-lottie";
@@ -322,15 +352,50 @@ function buildGalleryCell(sub, groupTitle) {
   return cell;
 }
 
+// Точки-навигация под галереей — клик скроллит к нужной карточке,
+// активная точка обновляется автоматически по свайпу (IntersectionObserver).
+function buildLightboxDots(count, content, dotsBox) {
+  if (!dotsBox) return;
+  dotsBox.innerHTML = Array.from({ length: count })
+    .map((_, i) => `<span class="lightbox-dot${i === 0 ? " active" : ""}" data-i="${i}"></span>`)
+    .join("");
+  const dots = [...dotsBox.querySelectorAll(".lightbox-dot")];
+  const cells = [...content.querySelectorAll(".gallery-cell")];
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener("click", () => {
+      cells[i].scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    });
+  });
+
+  lightboxDotObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const idx = cells.indexOf(entry.target);
+        dots.forEach((d, di) => d.classList.toggle("active", di === idx));
+      });
+    },
+    { root: content, threshold: 0.6 }
+  );
+  cells.forEach((c) => lightboxDotObserver.observe(c));
+}
+
 function closeLightbox() {
   const box = document.getElementById("lightbox");
   if (!box) return;
   box.classList.remove("open");
   lightboxAnims.forEach((anim) => anim.destroy());
   lightboxAnims = [];
+  if (lightboxDotObserver) {
+    lightboxDotObserver.disconnect();
+    lightboxDotObserver = null;
+  }
   const content = document.getElementById("lightbox-content");
+  const dotsBox = document.getElementById("lightbox-dots");
   content.innerHTML = "";
   content.classList.remove("lightbox-gallery");
+  if (dotsBox) dotsBox.innerHTML = "";
 }
 
 /* ---------- БЕГУЩАЯ СТРОКА В ХИРО ---------- */
@@ -340,7 +405,7 @@ function renderMarquee(items) {
   if (!track || !items.length) return;
   const doubled = [...items, ...items];
   track.innerHTML = doubled
-    .map((item) => `<div class="m-tile">${item.emoji || "✨"}</div>`)
+    .map((item, i) => `<div class="m-tile"><span class="m-emoji" style="animation-delay:${(i % 6) * -1.5}s">${item.emoji || "✨"}</span></div>`)
     .join("");
 }
 
@@ -408,6 +473,7 @@ function renderPriceGrid() {
   // ссылка уже стоит через data-link, но wireLinks уже отработал раньше —
   // подставим её явно для только что созданных элементов
   grid.querySelectorAll("[data-link='order']").forEach((el) => el.setAttribute("href", LEWDLY_CONFIG.orderUrl));
+  observeReveal(".price-card", grid);
 }
 
 // Цена в $ и ₽ рядом со звёздами — берётся напрямую из pricing.json

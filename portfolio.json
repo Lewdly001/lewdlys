@@ -4,45 +4,82 @@
     "category": "emoji",
     "type": "group",
     "items": [
-      { "type": "lottie", "src": "assets/portfolio/glitch.json" },
-      { "type": "lottie", "src": "assets/portfolio/lightning.json" },
-      { "type": "lottie", "src": "assets/portfolio/anger.json" }
-    ]
+      {
+        "type": "lottie",
+        "src": "assets/portfolio/glitch.json"
+      },
+      {
+        "type": "lottie",
+        "src": "assets/portfolio/lightning.json"
+      },
+      {
+        "type": "lottie",
+        "src": "assets/portfolio/anger.json"
+      }
+    ],
+    "emoji": "🐱"
   },
   {
-    "title": "Звезда",
-    "category": "animation",
+    "title": "SKVRT",
+    "category": "emoji",
     "type": "group",
     "items": [
-      { "type": "lottie", "src": "assets/portfolio/1.json" },
-  { "type": "lottie", "src": "assets/portfolio/2.json" },
-  { "type": "lottie", "src": "assets/portfolio/3.json" },
-  { "type": "lottie", "src": "assets/portfolio/4.json" },
-  { "type": "lottie", "src": "assets/portfolio/5.json" }
-    ]
+      {
+        "type": "lottie",
+        "src": "assets/portfolio/1.json"
+      },
+      {
+        "type": "lottie",
+        "src": "assets/portfolio/2.json"
+      },
+      {
+        "type": "lottie",
+        "src": "assets/portfolio/3.json"
+      },
+      {
+        "type": "lottie",
+        "src": "assets/portfolio/4.json"
+      },
+      {
+        "type": "lottie",
+        "src": "assets/portfolio/5.json"
+      }
+    ],
+    "emoji": "⭐"
   },
   {
     "title": "Пульс",
     "category": "animation",
     "type": "group",
     "items": [
-      { "type": "lottie", "src": "assets/portfolio/dot-bounce.json" }
-    ]
+      {
+        "type": "lottie",
+        "src": "assets/portfolio/dot-bounce.json"
+      }
+    ],
+    "emoji": "🔵"
   },
   {
     "title": "Цветовой луп",
     "category": "animation",
     "type": "group",
     "items": [
-      { "type": "video", "src": "assets/portfolio/hue-demo.mp4" }
-    ]
+      {
+        "type": "video",
+        "src": "assets/portfolio/hue-demo.mp4"
+      }
+    ],
+    "emoji": "🎬"
   },
   {
     "title": "NFT Gift «Кристалл»",
     "category": "gift",
     "type": "group",
     "items": [
-      { "emoji": "💎" }
-    ]
+      {
+        "emoji": "💎"
+      }
+    ],
+    "emoji": "💎"
   }
 ]
