@@ -113,7 +113,22 @@ function renderPortfolio() {
   initMediaForItems(items, grid);
 }
 
+// Подпись поверх карточки (категория + название) — использует готовые классы
+// .work-overlay/.work-tag/.work-title из style.css.
+function overlayMarkup(item) {
+  const tag = CATEGORY_LABELS[item.category] || item.category || "";
+  const title = item.title || "";
+  if (!tag && !title) return "";
+  return `
+        <div class="work-overlay">
+          ${tag ? `<span class="work-tag">${escapeHtml(tag)}</span>` : ""}
+          ${title ? `<span class="work-title">${escapeHtml(title)}</span>` : ""}
+        </div>`;
+}
+
 function workCardMarkup(item, i) {
+  const overlay = overlayMarkup(item);
+
   if (item.type === "group") {
     const subs = item.items || [];
     const shown = subs.slice(0, 4);
@@ -125,6 +140,7 @@ function workCardMarkup(item, i) {
       <div class="work work-group cells-${shown.length}" data-idx="${i}">
         <div class="group-grid">${cellsHtml}</div>
         <span class="media-badge">${subs.length} шт.</span>
+        ${overlay}
       </div>`;
   }
 
@@ -132,18 +148,21 @@ function workCardMarkup(item, i) {
     return `
       <div class="work" data-idx="${i}">
         <div class="work-media"><div class="media-lottie" data-lottie-src="${item.src}"></div></div>
+        ${overlay}
       </div>`;
   }
   if (item.type === "video") {
     return `
       <div class="work" data-idx="${i}">
         <div class="work-media"><video class="media-video" src="${item.src}" muted loop playsinline preload="metadata"></video></div>
+        ${overlay}
       </div>`;
   }
   if (item.type === "svg" || item.type === "image") {
     return `
       <div class="work" data-idx="${i}">
         <div class="work-media"><img class="media-image" src="${item.src}" loading="lazy" alt="${escapeHtml(item.title || "")}"></div>
+        ${overlay}
       </div>`;
   }
 
@@ -155,6 +174,7 @@ function workCardMarkup(item, i) {
     0.18
   )}, ${hex2rgba(colors[1], 0.12)})">
       <span class="work-emoji">${item.emoji || "✨"}</span>
+      ${overlay}
     </div>`;
 }
 
@@ -377,6 +397,7 @@ function renderPriceGrid() {
         <h3>${escapeHtml(tier.name)}</h3>
         <p class="tier-desc">${escapeHtml(tier.desc || "")}</p>
         <div class="price">${tier.price} <span>${tier.unit || "⭐"}</span></div>
+        <div class="price-alt">${formatPriceAlt(tier)}</div>
         <ul>
           ${tier.features.map((f) => `<li>${escapeHtml(f)}</li>`).join("")}
         </ul>
@@ -387,6 +408,17 @@ function renderPriceGrid() {
   // ссылка уже стоит через data-link, но wireLinks уже отработал раньше —
   // подставим её явно для только что созданных элементов
   grid.querySelectorAll("[data-link='order']").forEach((el) => el.setAttribute("href", LEWDLY_CONFIG.orderUrl));
+}
+
+// Цена в $ и ₽ рядом со звёздами — берётся напрямую из pricing.json
+// (поля priceUsd / priceRub у каждого тарифа), никакого курса не считаем.
+function formatPriceAlt(tier) {
+  const isFrom = (tier.unit || "").includes("+");
+  const prefix = isFrom ? "от " : "";
+  const parts = [];
+  if (tier.priceUsd != null) parts.push(`${prefix}$${tier.priceUsd}`);
+  if (tier.priceRub != null) parts.push(`${prefix}${tier.priceRub} ₽`);
+  return parts.join(" · ");
 }
 
 /* ---------- УТИЛИТЫ ---------- */

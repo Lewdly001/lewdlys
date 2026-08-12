@@ -12,29 +12,37 @@
   {
     "title": "Звезда",
     "category": "animation",
-    "type": "lottie",
-    "src": "assets/portfolio/star-pulse.json",
-    "emoji": "⭐"
+    "type": "group",
+    "items": [
+      { "type": "lottie", "src": "assets/portfolio/1.json" },
+  { "type": "lottie", "src": "assets/portfolio/2.json" },
+  { "type": "lottie", "src": "assets/portfolio/3.json" },
+  { "type": "lottie", "src": "assets/portfolio/4.json" },
+  { "type": "lottie", "src": "assets/portfolio/5.json" }
+    ]
   },
   {
     "title": "Пульс",
     "category": "animation",
-    "type": "lottie",
-    "src": "assets/portfolio/dot-bounce.json",
-    "emoji": "🔵"
+    "type": "group",
+    "items": [
+      { "type": "lottie", "src": "assets/portfolio/dot-bounce.json" }
+    ]
   },
   {
     "title": "Цветовой луп",
     "category": "animation",
-    "type": "video",
-    "src": "assets/portfolio/hue-demo.mp4",
-    "emoji": "🎬"
+    "type": "group",
+    "items": [
+      { "type": "video", "src": "assets/portfolio/hue-demo.mp4" }
+    ]
   },
   {
     "title": "NFT Gift «Кристалл»",
     "category": "gift",
-    "type": "placeholder",
-    "emoji": "💎",
-    "colors": ["#B9BBC4", "#3A3A42"]
+    "type": "group",
+    "items": [
+      { "emoji": "💎" }
+    ]
   }
 ]
