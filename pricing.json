@@ -1,103 +1,28 @@
 [
   {
-    "id": "emoji",
-    "label": "🐾 Emoji",
-    "tiers": [
-      {
-        "name": "Lite",
-        "desc": "1 эмодзи",
-        "price": 75,
-        "unit": "⭐",
-        "priceUsd": 0.7,
-        "priceRub": 65,
-        "features": ["1 эмодзи", "Простая анимация", "1 правка", "Срок 1–2 дня"]
-      },
-      {
-        "name": "Premium",
-        "desc": "1 эмодзи",
-        "price": 1300,
-        "unit": "⭐",
-        "priceUsd": 17,
-        "priceRub": 1800,
-        "featured": true,
-        "features": ["1 эмодзи", "Единый стиль", "До 3 правок", "Срок 1-3 дня"]
-      },
-      {
-        "name": "Elite",
-        "desc": "1 эмодзи",
-        "price": 5000,
-        "unit": "⭐+",
-        "priceUsd": 90,
-        "priceRub": 5600,
-        "features": ["1 эмодзи", "Авторский дизайн", "Безлимит правок", "Приоритетная очередь"]
-      }
-    ]
-  },
-  {
-    "id": "gift",
-    "label": "🎁 Gifts",
-    "tiers": [
-      {
-        "name": "Lite",
-        "desc": "1 дизайн",
-        "price": 200,
-        "unit": "⭐",
-        "priceUsd": 3.5,
-        "priceRub": 350,
-        "features": ["1 NFT-дизайн", "Статичный", "1 правка"]
-      },
-      {
-        "name": "Premium",
-        "desc": "Коллекция из 3",
-        "price": 600,
-        "unit": "⭐",
-        "priceUsd": 11,
-        "priceRub": 1100,
-        "featured": true,
-        "features": ["3 дизайна", "Единый стиль", "До 3 правок"]
-      },
-      {
-        "name": "Elite",
-        "desc": "Полная коллекция",
-        "price": 1200,
-        "unit": "⭐+",
-        "priceUsd": 22,
-        "priceRub": 2200,
-        "features": ["6+ дизайнов", "Авторская концепция", "Приоритетная очередь"]
-      }
-    ]
-  },
-  {
     "id": "animation",
-    "label": "⚡ Animation",
+    "label": "⚡ Анимации",
     "tiers": [
       {
         "name": "Lite",
-        "desc": "1 анимация",
-        "price": 150,
-        "unit": "⭐",
-        "priceUsd": 3,
-        "priceRub": 280,
-        "features": ["1 Lottie/TGS", "До 2 сек", "1 правка"]
-      },
+        "desc": "Переделка готового шаблона под ваш стиль",
+        "price": 1800,
+        "unit": "₽",
+        "priceUsd": 25,
+        "features": ["Готовый шаблон под вашу тему", "3 правки бесплатно", "Срок 1–2 дня"]
+      }
+    ]
+  },
+  {
+    "id": "vector",
+    "label": "🎨 Векторная иллюстрация",
+    "tiers": [
       {
-        "name": "Premium",
-        "desc": "Пак из 3",
-        "price": 500,
-        "unit": "⭐",
-        "priceUsd": 9,
-        "priceRub": 900,
-        "featured": true,
-        "features": ["3 анимации", "До 4 сек каждая", "До 3 правок"]
-      },
-      {
-        "name": "Elite",
-        "desc": "Пак из 6+",
-        "price": 1000,
-        "unit": "⭐+",
-        "priceUsd": 18,
-        "priceRub": 1800,
-        "features": ["6+ анимаций", "Сложная механика", "Приоритетная очередь"]
+        "name": "Lite",
+        "desc": "Переделка готового шаблона под ваш стиль",
+        "price": 1200,
+        "unit": "₽",
+        "features": ["Готовый шаблон под вашу тему", "3 правки бесплатно", "Срок 1–2 дня"]
       }
     ]
   }

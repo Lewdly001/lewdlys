@@ -5,7 +5,7 @@
    Text:        #F3F3F6 / #9A9AA5 (dim) / #5C5C68 (faint)
    Line:        #D6D8E0 (silver — hairlines, not fills)
    Accent:      violet #7C5CFF · pink #FF4FA3 · teal #5EEAD4
-                (category coding: emoji · gift · animation)
+                (category coding: portfolio emoji · price animation/vector)
    Display:     'Unbounded' — sparing, duotone misprint on hero
    Body:        'Manrope'
    Label/mono:  'JetBrains Mono' — eyebrows, tags, prices, steps
@@ -408,9 +408,8 @@ section{margin-top:104px;}
   background:var(--silver) !important;
   border-color:var(--silver) !important;
 }
-.price-tab[data-cat="emoji"].active{background:var(--violet) !important;border-color:var(--violet) !important;color:#fff !important;}
-.price-tab[data-cat="gift"].active{background:var(--pink) !important;border-color:var(--pink) !important;color:#0A0A0C !important;}
 .price-tab[data-cat="animation"].active{background:var(--teal) !important;border-color:var(--teal) !important;color:#0A0A0C !important;}
+.price-tab[data-cat="vector"].active{background:var(--pink) !important;border-color:var(--pink) !important;color:#0A0A0C !important;}
 .tier-desc{
   color:var(--ink-dim);
   font-size:13px;
@@ -519,8 +518,6 @@ section{margin-top:104px;}
   flex-shrink:0;
 }
 .filter-pill[data-cat="emoji"]::before{background:var(--violet);}
-.filter-pill[data-cat="gift"]::before{background:var(--pink);}
-.filter-pill[data-cat="animation"]::before{background:var(--teal);}
 .filter-pill:hover{border-color:var(--rule-strong);color:var(--ink);}
 .filter-pill.active{
   color:var(--bg) !important;
@@ -529,8 +526,6 @@ section{margin-top:104px;}
 }
 .filter-pill.active::before{background:var(--bg);}
 .filter-pill[data-cat="emoji"].active{background:var(--violet) !important;border-color:var(--violet) !important;color:#fff !important;}
-.filter-pill[data-cat="gift"].active{background:var(--pink) !important;border-color:var(--pink) !important;color:#0A0A0C !important;}
-.filter-pill[data-cat="animation"].active{background:var(--teal) !important;border-color:var(--teal) !important;color:#0A0A0C !important;}
 
 .work{
   height:256px;

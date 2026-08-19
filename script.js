@@ -8,8 +8,6 @@ let mediaObserver = null;
 const CATEGORY_LABELS = {
   all: "Все",
   emoji: "Emoji",
-  gift: "Gifts",
-  animation: "Animation",
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -70,8 +68,6 @@ function observeReveal(selector, root) {
 
 const FALLBACK_PORTFOLIO = [
   { title: "Набор «Лисята»", category: "emoji", type: "placeholder", emoji: "🦊" },
-  { title: "NFT Gift «Кристалл»", category: "gift", type: "placeholder", emoji: "💎" },
-  { title: "Анимация «Огонь»", category: "animation", type: "placeholder", emoji: "🔥" },
 ];
 
 // Пример группы: несколько работ (svg / lottie / video / картинки) в ОДНОЙ карточке.

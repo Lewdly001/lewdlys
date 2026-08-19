@@ -46,40 +46,5 @@
       }
     ],
     "emoji": "⭐"
-  },
-  {
-    "title": "Пульс",
-    "category": "animation",
-    "type": "group",
-    "items": [
-      {
-        "type": "lottie",
-        "src": "assets/portfolio/dot-bounce.json"
-      }
-    ],
-    "emoji": "🔵"
-  },
-  {
-    "title": "Цветовой луп",
-    "category": "animation",
-    "type": "group",
-    "items": [
-      {
-        "type": "video",
-        "src": "assets/portfolio/hue-demo.mp4"
-      }
-    ],
-    "emoji": "🎬"
-  },
-  {
-    "title": "NFT Gift «Кристалл»",
-    "category": "gift",
-    "type": "group",
-    "items": [
-      {
-        "emoji": "💎"
-      }
-    ],
-    "emoji": "💎"
   }
 ]
