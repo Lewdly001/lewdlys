@@ -240,13 +240,14 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
 .empty-group { padding: 28px; border: 2px dashed var(--fg); border-radius: 28px; text-align: center; color: var(--muted); }
 
 
-.showcase { padding-block: 56px 0; }
+.showcase { display: none; margin-bottom: 32px; }
 .banner { border: 2px solid var(--fg); border-radius: 28px; overflow: hidden; background: #FFFFFF url(assets/banner.jpg) center / cover no-repeat; min-height: min(630px, 56vw); display: grid; padding: clamp(64px, 14%, 120px) clamp(24px, 9%, 140px) clamp(40px, 9%, 90px); }
 .banner-grid { display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: clamp(8px, 1.6vw, 20px); min-width: 0; }
 .be { width: clamp(64px, 10vw, 130px); aspect-ratio: 1; cursor: pointer; min-width: 0; }
 .be > * { width: 100%; height: 100%; display: block; object-fit: contain; }
 .be .lot svg { width: 100%; height: 100%; display: block; }
 @media (max-width: 600px) {
+  .showcase { display: block; }
   .banner { min-height: calc((100vw - 32px) * 1.1); padding: 64px 18px 52px; border-radius: 22px; }
   .banner-grid { gap: 10px; }
   .be { width: calc((100% - 20px) / 3); }
@@ -340,21 +341,6 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
     </div>
   </div>
 
-  <section class="showcase" aria-label="Эмодзи на баннере">
-    <div class="wrap">
-      <div class="banner">
-        <div class="banner-grid" id="banner-grid">
-          <div class="be"><svg viewBox="0 0 200 200" aria-hidden="true"><ellipse class="f shadow" cx="100" cy="170" rx="40" ry="6" opacity=".3"/><g class="bounce"><circle class="b" cx="100" cy="96" r="58"/><g class="blink"><ellipse class="f" cx="80" cy="88" rx="6" ry="10"/><ellipse class="f" cx="120" cy="88" rx="6" ry="10"/></g><path class="s" d="M76 114 Q100 140 124 114"/></g></svg></div>
-          <div class="be"><svg viewBox="0 0 200 200" aria-hidden="true"><path class="b pulse" d="M100 160 C40 120 36 70 70 58 C88 52 100 66 100 76 C100 66 112 52 130 58 C164 70 160 120 100 160 Z"/><path class="s" d="M70 78 C62 82 60 92 63 99" style="stroke-width:5"/></svg></div>
-          <div class="be"><svg viewBox="0 0 200 200" aria-hidden="true"><polygon class="b wob" points="100,40 115.1,78.6 156.3,80.8 124.2,106.8 134.9,146.7 100,124 65.1,146.7 75.8,106.8 43.7,80.8 84.9,78.6"/></svg></div>
-          <div class="be"><svg viewBox="0 0 200 200" aria-hidden="true"><g class="flash"><path class="b" d="M112 28 L60 112 H96 L84 172 L140 84 H104Z"/></g></svg></div>
-          <div class="be"><svg viewBox="0 0 200 200" aria-hidden="true"><path class="s steam" d="M80 74 C70 62 90 54 80 40"/><path class="s steam d" d="M110 74 C100 62 120 54 110 40"/><path class="b" d="M60 88 H150 V128 C150 154 132 168 105 168 C78 168 60 154 60 128Z"/><path class="s" d="M150 100 H162 C176 100 176 134 160 134 H149"/></svg></div>
-        </div>
-      </div>
-      <div class="filters banner-chips" id="banner-chips" role="group" aria-label="Группы эмодзи"></div>
-    </div>
-  </section>
-
   <section id="price">
     <div class="wrap">
       <div class="sec-head">
@@ -413,6 +399,19 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
       <div class="sec-head">
         <h2>Работы</h2>
         <div class="filters" id="filters" role="group" aria-label="Группы работ"></div>
+      </div>
+
+      <div class="showcase" aria-label="Эмодзи на баннере">
+      <div class="banner">
+        <div class="banner-grid" id="banner-grid">
+          <div class="be"><svg viewBox="0 0 200 200" aria-hidden="true"><ellipse class="f shadow" cx="100" cy="170" rx="40" ry="6" opacity=".3"/><g class="bounce"><circle class="b" cx="100" cy="96" r="58"/><g class="blink"><ellipse class="f" cx="80" cy="88" rx="6" ry="10"/><ellipse class="f" cx="120" cy="88" rx="6" ry="10"/></g><path class="s" d="M76 114 Q100 140 124 114"/></g></svg></div>
+          <div class="be"><svg viewBox="0 0 200 200" aria-hidden="true"><path class="b pulse" d="M100 160 C40 120 36 70 70 58 C88 52 100 66 100 76 C100 66 112 52 130 58 C164 70 160 120 100 160 Z"/><path class="s" d="M70 78 C62 82 60 92 63 99" style="stroke-width:5"/></svg></div>
+          <div class="be"><svg viewBox="0 0 200 200" aria-hidden="true"><polygon class="b wob" points="100,40 115.1,78.6 156.3,80.8 124.2,106.8 134.9,146.7 100,124 65.1,146.7 75.8,106.8 43.7,80.8 84.9,78.6"/></svg></div>
+          <div class="be"><svg viewBox="0 0 200 200" aria-hidden="true"><g class="flash"><path class="b" d="M112 28 L60 112 H96 L84 172 L140 84 H104Z"/></g></svg></div>
+          <div class="be"><svg viewBox="0 0 200 200" aria-hidden="true"><path class="s steam" d="M80 74 C70 62 90 54 80 40"/><path class="s steam d" d="M110 74 C100 62 120 54 110 40"/><path class="b" d="M60 88 H150 V128 C150 154 132 168 105 168 C78 168 60 154 60 128Z"/><path class="s" d="M150 100 H162 C176 100 176 134 160 134 H149"/></svg></div>
+        </div>
+      </div>
+      <div class="filters banner-chips" id="banner-chips" role="group" aria-label="Группы эмодзи"></div>
       </div>
 
       <div class="grid demo" id="demo">
