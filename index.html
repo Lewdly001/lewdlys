@@ -597,7 +597,8 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
   function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var groups = [], active = 0, anims = [], io = null;
+  var groups = [], filter = 'all', canvas = 0, anims = [], io = null;
+  var CANVAS = [['white', 'белый'], ['gray', 'серый'], ['black', 'чёрный']];
   var worksEl = $('works'), filtersEl = $('filters'), demoEl = $('demo');
 
   function url(p) { return encodeURI(p); }
@@ -686,13 +687,38 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
   function renderFilters() {
     filtersEl.textContent = '';
     if (!groups.length) return;
-    groups.forEach(function (g, i) {
-      var b = el('button', 'chip', g.name);
+    [['all', 'Все'], ['anim', 'Эмодзи и стикеры'], ['vector', 'Вектор']].forEach(function (f) {
+      var b = el('button', 'chip', f[1]);
       b.type = 'button';
-      b.setAttribute('aria-pressed', i === active ? 'true' : 'false');
-      b.addEventListener('click', function () { active = i; render(); });
+      b.setAttribute('aria-pressed', filter === f[0] ? 'true' : 'false');
+      b.addEventListener('click', function () { filter = f[0]; render(); });
       filtersEl.appendChild(b);
     });
+    var bg = el('button', 'chip', 'Фон: ' + CANVAS[canvas][1]);
+    bg.type = 'button';
+    bg.addEventListener('click', function () { canvas = (canvas + 1) % CANVAS.length; render(); });
+    filtersEl.appendChild(bg);
+  }
+
+  /* category (emoji & stickers / vector) -> subgroups by project folder */
+  function buildCategory(title, test) {
+    var subs = [], total = 0;
+    groups.forEach(function (g) {
+      var list = g.works.filter(test);
+      if (list.length) { subs.push({ name: g.name, list: list }); total += list.length; }
+    });
+    if (!subs.length) return null;
+    var sec = el('section', 'group');
+    sec.style.padding = '0';
+    var head = el('div', 'group-head');
+    head.appendChild(el('h3', null, title));
+    head.appendChild(el('span', 'mono', String(total)));
+    sec.appendChild(head);
+    subs.forEach(function (s) {
+      sec.appendChild(subHead(s.name, s.list.length));
+      sec.appendChild(buildGrid(s.list));
+    });
+    return sec;
   }
 
   function render() {
@@ -700,22 +726,17 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
     anims = [];
     demoEl.hidden = groups.length > 0;
     worksEl.textContent = '';
+    worksEl.setAttribute('data-canvas', CANVAS[canvas][0]);
     renderFilters();
     if (!groups.length) return;
-    if (active >= groups.length) active = 0;
-    var g = groups[active];
-
-    var motion = g.works.filter(isAnim);
-    var vector = g.works.filter(function (w) { return !isAnim(w); });
-    var sec = el('section', 'group');
-    sec.style.padding = '0';
-    var head = el('div', 'group-head');
-    head.appendChild(el('h3', null, g.name));
-    head.appendChild(el('span', 'mono', String(g.works.length)));
-    sec.appendChild(head);
-    if (motion.length) { sec.appendChild(subHead('Анимации', motion.length)); sec.appendChild(buildGrid(motion)); }
-    if (vector.length) { sec.appendChild(subHead('Вектор', vector.length)); sec.appendChild(buildGrid(vector)); }
-    worksEl.appendChild(sec);
+    if (filter !== 'vector') {
+      var a = buildCategory('Эмодзи и стикеры', isAnim);
+      if (a) worksEl.appendChild(a);
+    }
+    if (filter !== 'anim') {
+      var v = buildCategory('Вектор', function (w) { return !isAnim(w); });
+      if (v) worksEl.appendChild(v);
+    }
   }
 
   fetch('works.json', { cache: 'no-store' })
