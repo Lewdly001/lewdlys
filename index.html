@@ -19,16 +19,6 @@
   --font-body: "Onest", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0A0A0A; --fg: #F5F5F5; --muted: #9A9A9A; --hair: #2B2B2B;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0A0A0A; --fg: #F5F5F5; --muted: #9A9A9A; --hair: #2B2B2B;
-  color-scheme: dark;
-}
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -491,7 +481,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
         </figure>
       </div>
 
-      <div id="works" data-canvas="white"></div>
+      <div id="works" data-canvas="gray"></div>
 
       <div class="cta more">
         <a class="btn solid" href="https://t.me/DS_lewdly" target="_blank" rel="noopener">Больше в канале <span class="arrow">↗</span></a>
@@ -600,7 +590,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var cats = [], filter = 'all', canvas = 0, anims = [], io = null;
-  var CANVAS = [['white', 'белый'], ['gray', 'серый'], ['black', 'чёрный']];
+  var CANVAS = [['gray', 'серый'], ['white', 'белый'], ['black', 'чёрный']];
   var worksEl = $('works'), filtersEl = $('filters'), demoEl = $('demo');
 
   function url(p) { return encodeURI(p); }
