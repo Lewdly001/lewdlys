@@ -4,8 +4,18 @@
    "name": "Эмодзи и стикеры",
    "works": [
     {
+     "title": "AgAD-asAAoLd-Eo",
+     "file": "works/emoji-stickers/AgAD-asAAoLd-Eo.json",
+     "kind": "lottie"
+    },
+    {
      "title": "AgADBqEAAsoMSEs (1)",
      "file": "works/emoji-stickers/AgADBqEAAsoMSEs (1).json",
+     "kind": "lottie"
+    },
+    {
+     "title": "AgADGbMAAm4L-Eo",
+     "file": "works/emoji-stickers/AgADGbMAAm4L-Eo.json",
      "kind": "lottie"
     },
     {
@@ -21,6 +31,11 @@
     {
      "title": "AgADNJoAAmW YUs",
      "file": "works/emoji-stickers/AgADNJoAAmW_YUs.json",
+     "kind": "lottie"
+    },
+    {
+     "title": "AgADO60AArTyAAFL",
+     "file": "works/emoji-stickers/AgADO60AArTyAAFL.json",
      "kind": "lottie"
     },
     {
