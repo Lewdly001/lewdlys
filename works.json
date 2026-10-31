@@ -2,71 +2,77 @@
  "groups": [
   {
    "name": "Эмодзи и стикеры",
-   "works": [
+   "works": [],
+   "subs": [
     {
-     "title": "AgAD-asAAoLd-Eo",
-     "file": "works/emoji-stickers/AgAD-asAAoLd-Eo.json",
-     "kind": "lottie"
+     "name": "YAMAKASI",
+     "works": [
+      {
+       "title": "AgADBqEAAsoMSEs",
+       "file": "works/emoji/1_YAMAKASI/AgADBqEAAsoMSEs.json",
+       "kind": "lottie"
+      },
+      {
+       "title": "AgADPqMAAkMBQUs",
+       "file": "works/emoji/1_YAMAKASI/AgADPqMAAkMBQUs.json",
+       "kind": "lottie"
+      },
+      {
+       "title": "AgADsJ8AAn75QUs",
+       "file": "works/emoji/1_YAMAKASI/AgADsJ8AAn75QUs.json",
+       "kind": "lottie"
+      }
+     ]
     },
     {
-     "title": "AgADBqEAAsoMSEs (1)",
-     "file": "works/emoji-stickers/AgADBqEAAsoMSEs (1).json",
-     "kind": "lottie"
+     "name": "SKVRT",
+     "works": [
+      {
+       "title": "AgADh58AAg5DYUs",
+       "file": "works/emoji/2_SKVRT/AgADh58AAg5DYUs.json",
+       "kind": "lottie"
+      },
+      {
+       "title": "AgADIqYAAgSpYEs",
+       "file": "works/emoji/2_SKVRT/AgADIqYAAgSpYEs.json",
+       "kind": "lottie"
+      },
+      {
+       "title": "AgADNJoAAmW YUs",
+       "file": "works/emoji/2_SKVRT/AgADNJoAAmW_YUs.json",
+       "kind": "lottie"
+      },
+      {
+       "title": "AgADvpkAAmVdYUs",
+       "file": "works/emoji/2_SKVRT/AgADvpkAAmVdYUs.json",
+       "kind": "lottie"
+      },
+      {
+       "title": "AgADvqAAAjZcYEs",
+       "file": "works/emoji/2_SKVRT/AgADvqAAAjZcYEs.json",
+       "kind": "lottie"
+      }
+     ]
     },
     {
-     "title": "AgADGbMAAm4L-Eo",
-     "file": "works/emoji-stickers/AgADGbMAAm4L-Eo.json",
-     "kind": "lottie"
-    },
-    {
-     "title": "AgADh58AAg5DYUs",
-     "file": "works/emoji-stickers/AgADh58AAg5DYUs.json",
-     "kind": "lottie"
-    },
-    {
-     "title": "AgADIqYAAgSpYEs",
-     "file": "works/emoji-stickers/AgADIqYAAgSpYEs.json",
-     "kind": "lottie"
-    },
-    {
-     "title": "AgADNJoAAmW YUs",
-     "file": "works/emoji-stickers/AgADNJoAAmW_YUs.json",
-     "kind": "lottie"
-    },
-    {
-     "title": "AgADO60AArTyAAFL",
-     "file": "works/emoji-stickers/AgADO60AArTyAAFL.json",
-     "kind": "lottie"
-    },
-    {
-     "title": "AgADPqMAAkMBQUs",
-     "file": "works/emoji-stickers/AgADPqMAAkMBQUs.json",
-     "kind": "lottie"
-    },
-    {
-     "title": "AgADsJ8AAn75QUs",
-     "file": "works/emoji-stickers/AgADsJ8AAn75QUs.json",
-     "kind": "lottie"
-    },
-    {
-     "title": "AgADvpkAAmVdYUs",
-     "file": "works/emoji-stickers/AgADvpkAAmVdYUs.json",
-     "kind": "lottie"
-    },
-    {
-     "title": "AgADvqAAAjZcYEs",
-     "file": "works/emoji-stickers/AgADvqAAAjZcYEs.json",
-     "kind": "lottie"
-    }
-   ]
-  },
-  {
-   "name": "Вектор",
-   "works": [
-    {
-     "title": "Comp 1 svg 000",
-     "file": "works/vector/Comp_1_svg_000.svg",
-     "kind": "img"
+     "name": "KORTIZOL",
+     "works": [
+      {
+       "title": "AgAD-asAAoLd-Eo",
+       "file": "works/emoji/3_KORTIZOL/AgAD-asAAoLd-Eo.json",
+       "kind": "lottie"
+      },
+      {
+       "title": "AgADGbMAAm4L-Eo",
+       "file": "works/emoji/3_KORTIZOL/AgADGbMAAm4L-Eo.json",
+       "kind": "lottie"
+      },
+      {
+       "title": "AgADO60AArTyAAFL",
+       "file": "works/emoji/3_KORTIZOL/AgADO60AArTyAAFL.json",
+       "kind": "lottie"
+      }
+     ]
     }
    ]
   }

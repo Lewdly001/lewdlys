@@ -240,6 +240,10 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
 .empty-group { padding: 28px; border: 2px dashed var(--fg); border-radius: 28px; text-align: center; color: var(--muted); }
 
 
+.sub-head { display: flex; align-items: baseline; gap: 12px; margin: 28px 0 14px; }
+.sub-head h4 { margin: 0; font-family: var(--font-display); font-weight: 500; font-size: clamp(1.05rem, 2.4vw, 1.35rem); letter-spacing: -0.03em; text-transform: uppercase; }
+.sub-head h4::before { content: "/ "; color: var(--muted); }
+
 @media (max-width: 860px) {
   .hero { grid-template-columns: 1fr; }
   .stage { order: -1; max-width: 300px; margin-inline: 0; }
@@ -655,6 +659,12 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
     return fig;
   }
 
+  function buildGrid(list) {
+    var grid = el('div', 'wgrid');
+    list.forEach(function (w) { grid.appendChild(buildWork(w)); });
+    return grid;
+  }
+
   function renderFilters() {
     filtersEl.textContent = '';
     if (!groups.length) return;
@@ -684,13 +694,19 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
       if (active !== 'all' && g.name !== active) return;
       var sec = el('section', 'group');
       sec.style.padding = '0';
+      var total = g.subs.reduce(function (n, x) { return n + x.works.length; }, g.works.length);
       var head = el('div', 'group-head');
       head.appendChild(el('h3', null, g.name));
-      head.appendChild(el('span', 'mono', String(g.works.length)));
+      head.appendChild(el('span', 'mono', String(total)));
       sec.appendChild(head);
-      var grid = el('div', 'wgrid');
-      g.works.forEach(function (w) { grid.appendChild(buildWork(w)); });
-      sec.appendChild(grid);
+      if (g.works.length) sec.appendChild(buildGrid(g.works));
+      g.subs.forEach(function (x) {
+        var sh = el('div', 'sub-head');
+        sh.appendChild(el('h4', null, x.name));
+        sh.appendChild(el('span', 'mono', String(x.works.length)));
+        sec.appendChild(sh);
+        sec.appendChild(buildGrid(x.works));
+      });
       worksEl.appendChild(sec);
     });
   }
@@ -700,7 +716,12 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
     .catch(function () { return null; })
     .then(function (d) {
       if (d && Array.isArray(d.groups)) {
-        groups = d.groups.filter(function (g) { return g && Array.isArray(g.works) && g.works.length; });
+        groups = d.groups.filter(function (g) {
+          if (!g) return false;
+          g.works = Array.isArray(g.works) ? g.works : [];
+          g.subs = (Array.isArray(g.subs) ? g.subs : []).filter(function (x) { return x && Array.isArray(x.works) && x.works.length; });
+          return g.works.length || g.subs.length;
+        });
       }
       render();
     });
