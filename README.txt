@@ -11,12 +11,10 @@ STRUCTURE
     heart.tgs         animations: .tgs .json .webm .mp4
     logo.svg          vector: .svg
 
-  The site splits works by file type into "Эмодзи и стикеры" (animations) and "Вектор",
-  and inside each of them shows one subgroup per folder (/ YAMAKASI, / T2X2 ...).
-  Same layout on desktop and phone. Only animations on screen are playing.
+  The site splits every group into "Animations" and "Vector" by file type.
   Folder name is shown on the site as written. Use latin names, no spaces.
   New group = new folder. File name = work title. Order = file name order (01_, 02_ ...).
-  On phones works are shown three per row (four on wide phones);
+  On phones works are shown three per row (four on wide phones).
 
 AFTER ADDING FILES
   python build.py
