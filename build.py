@@ -13,6 +13,8 @@ works/
     TRUDI/
       logo.svg
 
+Баннер вверху сайта показывает эмодзи из группы emoji (с переключением по подгруппам).
+
 Группа = папка в works/, подгруппа = папка внутри группы. Глубже не читается.
 Папка, которой нет в NAMES, показывается под своим именем как есть (T2X2 -> T2X2).
 В NAMES (ключ в нижнем регистре) задавай только красивые названия вместо имени папки.
@@ -87,7 +89,7 @@ def main():
             if items:
                 subs.append({"name": label(s), "works": items})
         if direct or subs:
-            groups.append({"name": label(g), "works": direct, "subs": subs})
+            groups.append({"id": clean(g).lower(), "name": label(g), "works": direct, "subs": subs})
 
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump({"groups": groups}, fh, ensure_ascii=False, indent=1)

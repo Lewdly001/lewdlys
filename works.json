@@ -1,6 +1,7 @@
 {
  "groups": [
   {
+   "id": "emoji",
    "name": "Эмодзи и стикеры",
    "works": [],
    "subs": [
@@ -127,6 +128,7 @@
    ]
   },
   {
+   "id": "vector",
    "name": "Вектор",
    "works": [],
    "subs": [

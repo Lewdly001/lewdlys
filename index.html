@@ -240,6 +240,18 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
 .empty-group { padding: 28px; border: 2px dashed var(--fg); border-radius: 28px; text-align: center; color: var(--muted); }
 
 
+.showcase { padding-block: 56px 0; }
+.banner { border: 2px solid var(--fg); border-radius: 28px; overflow: hidden; background: #FFFFFF url(assets/banner.jpg) center / cover no-repeat; min-height: min(630px, 56vw); display: grid; padding: clamp(64px, 14%, 120px) clamp(24px, 9%, 140px) clamp(40px, 9%, 90px); }
+.banner-grid { display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: clamp(8px, 1.6vw, 20px); min-width: 0; }
+.be { width: clamp(64px, 10vw, 130px); aspect-ratio: 1; cursor: pointer; min-width: 0; }
+.be > * { width: 100%; height: 100%; display: block; object-fit: contain; }
+.be .lot svg { width: 100%; height: 100%; display: block; }
+@media (max-width: 600px) {
+  .banner { min-height: calc((100vw - 32px) * 1.1); padding: 64px 18px 52px; border-radius: 22px; }
+  .banner-grid { gap: 10px; }
+  .be { width: calc((100% - 20px) / 3); }
+}
+.banner-chips { margin-top: 14px; }
 .sub-head { display: flex; align-items: baseline; gap: 12px; margin: 28px 0 14px; }
 .sub-head h4 { margin: 0; font-family: var(--font-display); font-weight: 500; font-size: clamp(1.05rem, 2.4vw, 1.35rem); letter-spacing: -0.03em; text-transform: uppercase; }
 .sub-head h4::before { content: "/ "; color: var(--muted); }
@@ -327,6 +339,21 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
       <div><span>Эмодзи и стикеры</span><i class="star"></i><span>Lottie</span><i class="star"></i><span>Вектор</span><i class="star"></i><span>Эмодзи и стикеры</span><i class="star"></i><span>Lottie</span><i class="star"></i><span>Вектор</span><i class="star"></i></div>
     </div>
   </div>
+
+  <section class="showcase" aria-label="Эмодзи на баннере">
+    <div class="wrap">
+      <div class="banner">
+        <div class="banner-grid" id="banner-grid">
+          <div class="be"><svg viewBox="0 0 200 200" aria-hidden="true"><ellipse class="f shadow" cx="100" cy="170" rx="40" ry="6" opacity=".3"/><g class="bounce"><circle class="b" cx="100" cy="96" r="58"/><g class="blink"><ellipse class="f" cx="80" cy="88" rx="6" ry="10"/><ellipse class="f" cx="120" cy="88" rx="6" ry="10"/></g><path class="s" d="M76 114 Q100 140 124 114"/></g></svg></div>
+          <div class="be"><svg viewBox="0 0 200 200" aria-hidden="true"><path class="b pulse" d="M100 160 C40 120 36 70 70 58 C88 52 100 66 100 76 C100 66 112 52 130 58 C164 70 160 120 100 160 Z"/><path class="s" d="M70 78 C62 82 60 92 63 99" style="stroke-width:5"/></svg></div>
+          <div class="be"><svg viewBox="0 0 200 200" aria-hidden="true"><polygon class="b wob" points="100,40 115.1,78.6 156.3,80.8 124.2,106.8 134.9,146.7 100,124 65.1,146.7 75.8,106.8 43.7,80.8 84.9,78.6"/></svg></div>
+          <div class="be"><svg viewBox="0 0 200 200" aria-hidden="true"><g class="flash"><path class="b" d="M112 28 L60 112 H96 L84 172 L140 84 H104Z"/></g></svg></div>
+          <div class="be"><svg viewBox="0 0 200 200" aria-hidden="true"><path class="s steam" d="M80 74 C70 62 90 54 80 40"/><path class="s steam d" d="M110 74 C100 62 120 54 110 40"/><path class="b" d="M60 88 H150 V128 C150 154 132 168 105 168 C78 168 60 154 60 128Z"/><path class="s" d="M150 100 H162 C176 100 176 134 160 134 H149"/></svg></div>
+        </div>
+      </div>
+      <div class="filters banner-chips" id="banner-chips" role="group" aria-label="Группы эмодзи"></div>
+    </div>
+  </section>
 
   <section id="price">
     <div class="wrap">
@@ -591,8 +618,10 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var CANVAS = [['белый', 'white'], ['серый', 'gray'], ['чёрный', 'black']];
 
-  var groups = [], active = 'all', canvasIdx = 0, anims = [], io = null;
+  var groups = [], bannerTab = 0, active = 'all', canvasIdx = 0, anims = [], io = null;
+  var BANNER_MAX = 18;
   var worksEl = $('works'), filtersEl = $('filters'), demoEl = $('demo');
+  var bannerEl = $('banner-grid'), bannerChips = $('banner-chips');
 
   function url(p) { return encodeURI(p); }
 
@@ -633,9 +662,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
     if (!reduce) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
   }
 
-  function buildWork(w) {
-    var fig = el('figure', 'work');
-    var media = el('div', 'media');
+  function makeNode(w) {
     var node;
     if (w.kind === 'lottie') {
       node = el('div', 'lot');
@@ -649,6 +676,53 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
       node = document.createElement('img');
       node.alt = w.title; node.loading = 'lazy'; node.src = url(w.file);
     }
+    return node;
+  }
+
+  function emojiGroup() {
+    for (var i = 0; i < groups.length; i++) {
+      if (groups[i].id === 'emoji' || groups[i].id === 'emoji-stickers') return groups[i];
+    }
+    return null;
+  }
+
+  function renderBanner() {
+    var g = emojiGroup();
+    if (!g) return;
+    var all = g.works.slice();
+    g.subs.forEach(function (x) { all = all.concat(x.works); });
+    var tabs = [{ name: 'Все', works: all }];
+    if (g.subs.length) g.subs.forEach(function (x) { tabs.push({ name: x.name, works: x.works }); });
+    if (bannerTab >= tabs.length) bannerTab = 0;
+
+    bannerChips.textContent = '';
+    if (tabs.length > 1) {
+      tabs.forEach(function (t, i) {
+        var b = el('button', 'chip', t.name);
+        b.type = 'button';
+        b.setAttribute('aria-pressed', i === bannerTab ? 'true' : 'false');
+        b.addEventListener('click', function () { bannerTab = i; render(); });
+        bannerChips.appendChild(b);
+      });
+    }
+
+    bannerEl.textContent = '';
+    tabs[bannerTab].works.slice(0, BANNER_MAX).forEach(function (w) {
+      var b = el('div', 'be');
+      var node = makeNode(w);
+      b.appendChild(node);
+      b.addEventListener('click', function () {
+        if (w.kind === 'lottie' && node._anim) { node._anim.isPaused ? node._anim.play() : node._anim.pause(); }
+        else if (w.kind === 'video') { node.paused ? node.play() : node.pause(); }
+      });
+      bannerEl.appendChild(b);
+    });
+  }
+
+  function buildWork(w) {
+    var fig = el('figure', 'work');
+    var media = el('div', 'media');
+    var node = makeNode(w);
     media.appendChild(node);
     media.addEventListener('click', function () {
       if (w.kind === 'lottie' && node._anim) { node._anim.isPaused ? node._anim.play() : node._anim.pause(); }
@@ -685,6 +759,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
   function render() {
     anims.forEach(function (a) { try { a.destroy(); } catch (e) {} });
     anims = [];
+    renderBanner();
     demoEl.hidden = groups.length > 0;
     if (active !== 'all' && !groups.some(function (g) { return g.name === active; })) active = 'all';
     worksEl.dataset.canvas = CANVAS[canvasIdx][1];
