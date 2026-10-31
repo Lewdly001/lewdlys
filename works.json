@@ -1,3 +1,59 @@
 {
- "groups": []
+ "groups": [
+  {
+   "name": "Эмодзи и стикеры",
+   "works": [
+    {
+     "title": "AgADBqEAAsoMSEs (1)",
+     "file": "works/emoji-stickers/AgADBqEAAsoMSEs (1).json",
+     "kind": "lottie"
+    },
+    {
+     "title": "AgADh58AAg5DYUs",
+     "file": "works/emoji-stickers/AgADh58AAg5DYUs.json",
+     "kind": "lottie"
+    },
+    {
+     "title": "AgADIqYAAgSpYEs",
+     "file": "works/emoji-stickers/AgADIqYAAgSpYEs.json",
+     "kind": "lottie"
+    },
+    {
+     "title": "AgADNJoAAmW YUs",
+     "file": "works/emoji-stickers/AgADNJoAAmW_YUs.json",
+     "kind": "lottie"
+    },
+    {
+     "title": "AgADPqMAAkMBQUs",
+     "file": "works/emoji-stickers/AgADPqMAAkMBQUs.json",
+     "kind": "lottie"
+    },
+    {
+     "title": "AgADsJ8AAn75QUs",
+     "file": "works/emoji-stickers/AgADsJ8AAn75QUs.json",
+     "kind": "lottie"
+    },
+    {
+     "title": "AgADvpkAAmVdYUs",
+     "file": "works/emoji-stickers/AgADvpkAAmVdYUs.json",
+     "kind": "lottie"
+    },
+    {
+     "title": "AgADvqAAAjZcYEs",
+     "file": "works/emoji-stickers/AgADvqAAAjZcYEs.json",
+     "kind": "lottie"
+    }
+   ]
+  },
+  {
+   "name": "Вектор",
+   "works": [
+    {
+     "title": "Comp 1 svg 000",
+     "file": "works/vector/Comp_1_svg_000.svg",
+     "kind": "img"
+    }
+   ]
+  }
+ ]
 }
