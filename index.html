@@ -244,7 +244,12 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
 .sub-head h4 { margin: 0; font-family: var(--font-display); font-weight: 500; font-size: clamp(1.05rem, 2.4vw, 1.35rem); letter-spacing: -0.03em; text-transform: uppercase; }
 .sub-head h4::before { content: "/ "; color: var(--muted); }
 
+.subtabs { display: none; gap: 8px; margin: 20px 0 14px; }
+.subtabs .chip { min-height: 40px; padding: 6px 16px; font-size: .9rem; display: inline-flex; align-items: center; gap: 8px; }
+.subtabs .chip .mono { font-size: .68rem; letter-spacing: .04em; opacity: .7; }
+
 @media (max-width: 860px) {
+  .subtabs { display: flex; }
   .hero { grid-template-columns: 1fr; }
   .stage { order: -1; max-width: 300px; margin-inline: 0; }
   .prices { grid-template-columns: 1fr; }
@@ -595,7 +600,8 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
   function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var groups = [], active = 0, anims = [], io = null;
+  var groups = [], active = 0, activeSub = 'motion', anims = [], io = null;
+  var phone = window.matchMedia ? matchMedia('(max-width: 860px)') : { matches: false };
   var worksEl = $('works'), filtersEl = $('filters'), demoEl = $('demo');
 
   function url(p) { return encodeURI(p); }
@@ -711,10 +717,33 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
     head.appendChild(el('h3', null, g.name));
     head.appendChild(el('span', 'mono', String(g.works.length)));
     sec.appendChild(head);
-    if (motion.length) { sec.appendChild(subHead('Анимации', motion.length)); sec.appendChild(buildGrid(motion)); }
-    if (vector.length) { sec.appendChild(subHead('Вектор', vector.length)); sec.appendChild(buildGrid(vector)); }
+    var subs = [];
+    if (motion.length) subs.push({ id: 'motion', name: 'Анимации', list: motion });
+    if (vector.length) subs.push({ id: 'vector', name: 'Вектор', list: vector });
+
+    if (phone.matches && subs.length > 1) {
+      /* phone: subgroups are tabs, only one is mounted at a time */
+      if (!subs.some(function (x) { return x.id === activeSub; })) activeSub = subs[0].id;
+      var tabs = el('div', 'subtabs');
+      tabs.setAttribute('role', 'group');
+      tabs.setAttribute('aria-label', 'Тип работ');
+      subs.forEach(function (x) {
+        var b = el('button', 'chip', x.name);
+        b.type = 'button';
+        b.appendChild(el('span', 'mono', String(x.list.length)));
+        b.setAttribute('aria-pressed', x.id === activeSub ? 'true' : 'false');
+        b.addEventListener('click', function () { activeSub = x.id; render(); });
+        tabs.appendChild(b);
+      });
+      sec.appendChild(tabs);
+      subs.forEach(function (x) { if (x.id === activeSub) sec.appendChild(buildGrid(x.list)); });
+    } else {
+      subs.forEach(function (x) { sec.appendChild(subHead(x.name, x.list.length)); sec.appendChild(buildGrid(x.list)); });
+    }
     worksEl.appendChild(sec);
   }
+
+  if (phone.addEventListener) phone.addEventListener('change', function () { if (groups.length) render(); });
 
   fetch('works.json', { cache: 'no-store' })
     .then(function (r) { return r.ok ? r.json() : null; })

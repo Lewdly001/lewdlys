@@ -14,7 +14,8 @@ STRUCTURE
   The site splits every group into "Animations" and "Vector" by file type.
   Folder name is shown on the site as written. Use latin names, no spaces.
   New group = new folder. File name = work title. Order = file name order (01_, 02_ ...).
-  On phones works are shown three per row (four on wide phones).
+  On phones works are shown three per row (four on wide phones);
+  "Animations" and "Vector" become two tabs, one subgroup on screen at a time.
 
 AFTER ADDING FILES
   python build.py
