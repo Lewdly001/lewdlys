@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <style>:root{color-scheme:light}body{margin:0}img,video{max-width:100%}[hidden]{display:none!important}</style>
 <title>Lewdly</title>
+<meta name="theme-color" content="#FFFFFF">
+<script>(function(){try{if(localStorage.getItem('lw-theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content','#0A0A0A');}}catch(e){}})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;500;800&family=Onest:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -20,8 +22,15 @@
   --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
 }
 
+:root[data-theme="dark"] {
+  --bg: #0A0A0A; --fg: #F5F5F5; --muted: #9A9A9A; --hair: #2B2B2B;
+  color-scheme: dark;
+}
+
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+.t { display: contents; }
+h1 .t { animation: none; }
 body {
   background: var(--bg);
   color: var(--fg);
@@ -59,6 +68,16 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--fg); outline-of
 .nav { display: flex; gap: 22px; }
 .nav a { text-decoration: none; }
 .nav a:hover { text-decoration: underline; text-underline-offset: 5px; }
+
+.top-right { display: flex; align-items: center; gap: 22px; }
+.tools { display: flex; align-items: center; gap: 8px; }
+.tools .switch button { min-width: 44px; min-height: 34px; font: 700 .8rem var(--font-mono); letter-spacing: .06em; }
+.theme-btn { width: 44px; height: 44px; padding: 0; display: grid; place-items: center; border: 2px solid var(--fg); border-radius: 999px; background: transparent; color: var(--fg); cursor: pointer; transition: background .15s ease, color .15s ease; }
+.theme-btn:hover { background: var(--fg); color: var(--bg); }
+.theme-btn svg { width: 20px; height: 20px; display: block; }
+.theme-btn .ico-sun { display: none; }
+:root[data-theme="dark"] .theme-btn .ico-sun { display: block; }
+:root[data-theme="dark"] .theme-btn .ico-moon { display: none; }
 
 /* buttons */
 .btn {
@@ -267,11 +286,23 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
 <div class="wrap">
   <header class="top">
     <a class="brand" href="#top"><span class="star"></span>Lewdly</a>
-    <nav class="nav mono" aria-label="Разделы">
-      <a href="#price">Прайс</a>
-      <a href="#portfolio">Работы</a>
-      <a href="#contacts">Контакты</a>
-    </nav>
+    <div class="top-right">
+      <nav class="nav mono" aria-label="Разделы" data-i18n-aria="nav_aria">
+        <a href="#price" data-i18n="price_h">Прайс</a>
+        <a href="#portfolio" data-i18n="work_h">Работы</a>
+        <a href="#contacts" data-i18n="contacts_h">Контакты</a>
+      </nav>
+      <div class="tools">
+        <div class="switch" role="group" aria-label="Язык" data-i18n-aria="lang_aria">
+          <button type="button" id="lang-ru" aria-pressed="true">RU</button>
+          <button type="button" id="lang-en" aria-pressed="false">EN</button>
+        </div>
+        <button type="button" class="theme-btn" id="theme-btn" aria-label="Включить тёмную тему">
+          <svg class="ico-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2z" fill="currentColor"/></svg>
+          <svg class="ico-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+        </button>
+      </div>
+    </div>
   </header>
 </div>
 
@@ -280,24 +311,24 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
     <div class="hero">
       <div>
         <h1>
-          <span>Двигаю
+          <span><span class="t" data-i18n="h1a">Двигаю</span>
             <svg viewBox="0 0 40 40" aria-hidden="true"><path class="f spin" d="M20 0 L25 15 L40 20 L25 25 L20 40 L15 25 L0 20 L15 15Z"/></svg>
           </span>
-          <span>и рисую</span>
+          <span data-i18n="h1b">и рисую</span>
         </h1>
         <div class="tags">
-          <span class="tag on">Эмодзи и стикеры</span>
+          <span class="tag on" data-i18n="cat_emoji">Эмодзи и стикеры</span>
           <span class="tag">Lottie</span>
-          <span class="tag">Вектор</span>
+          <span class="tag" data-i18n="cat_vector">Вектор</span>
         </div>
         <div class="cta">
-          <a class="btn solid" href="https://t.me/lewdlys" target="_blank" rel="noopener">Написать в ЛС <span class="arrow">↗</span></a>
-          <a class="btn" href="https://t.me/DS_lewdly" target="_blank" rel="noopener">Канал <span class="arrow">↗</span></a>
+          <a class="btn solid" href="https://t.me/lewdlys" target="_blank" rel="noopener"><span class="t" data-i18n="cta_dm">Написать в личные сообщения</span> <span class="arrow">↗</span></a>
+          <a class="btn" href="https://t.me/DS_lewdly" target="_blank" rel="noopener"><span class="t" data-i18n="channel">Канал</span> <span class="arrow">↗</span></a>
         </div>
       </div>
 
       <div class="stage" id="stage">
-        <svg viewBox="0 0 400 400" role="img" aria-label="Персонаж, который следит за курсором">
+        <svg viewBox="0 0 400 400" role="img" aria-label="Персонаж, который следит за курсором" data-i18n-aria="a_stage">
           <circle class="o spin" cx="200" cy="200" r="190"/>
           <g class="spin rev"><g transform="translate(200 10)"><path class="f" d="M0 -14 L4 -4 L14 0 L4 4 L0 14 L-4 4 L-14 0 L-4 -4Z"/></g></g>
           <ellipse class="f shadow" cx="200" cy="356" rx="86" ry="10" opacity=".3"/>
@@ -320,16 +351,16 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
 
   <div class="marquee dark" aria-hidden="true">
     <div class="track">
-      <div><span>Эмодзи и стикеры</span><i class="star"></i><span>Lottie</span><i class="star"></i><span>Вектор</span><i class="star"></i><span>Эмодзи и стикеры</span><i class="star"></i><span>Lottie</span><i class="star"></i><span>Вектор</span><i class="star"></i></div>
-      <div><span>Эмодзи и стикеры</span><i class="star"></i><span>Lottie</span><i class="star"></i><span>Вектор</span><i class="star"></i><span>Эмодзи и стикеры</span><i class="star"></i><span>Lottie</span><i class="star"></i><span>Вектор</span><i class="star"></i></div>
+      <div><span data-i18n="cat_emoji">Эмодзи и стикеры</span><i class="star"></i><span>Lottie</span><i class="star"></i><span data-i18n="cat_vector">Вектор</span><i class="star"></i><span data-i18n="cat_emoji">Эмодзи и стикеры</span><i class="star"></i><span>Lottie</span><i class="star"></i><span data-i18n="cat_vector">Вектор</span><i class="star"></i></div>
+      <div><span data-i18n="cat_emoji">Эмодзи и стикеры</span><i class="star"></i><span>Lottie</span><i class="star"></i><span data-i18n="cat_vector">Вектор</span><i class="star"></i><span data-i18n="cat_emoji">Эмодзи и стикеры</span><i class="star"></i><span>Lottie</span><i class="star"></i><span data-i18n="cat_vector">Вектор</span><i class="star"></i></div>
     </div>
   </div>
 
   <section id="price">
     <div class="wrap">
       <div class="sec-head">
-        <h2>Прайс</h2>
-        <div class="switch" role="group" aria-label="Валюта">
+        <h2 data-i18n="price_h">Прайс</h2>
+        <div class="switch" role="group" aria-label="Валюта" data-i18n-aria="cur_aria">
           <button type="button" id="cur-rub" aria-pressed="true">₽</button>
           <button type="button" id="cur-usd" aria-pressed="false">$</button>
         </div>
@@ -337,7 +368,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
 
       <div class="prices">
         <article class="card swap">
-          <svg class="art" viewBox="0 0 132 132" role="img" aria-label="Прыгающий смайл">
+          <svg class="art" viewBox="0 0 132 132" role="img" aria-label="Прыгающий смайл" data-i18n-aria="a_bounce">
             <ellipse class="f shadow" cx="66" cy="120" rx="28" ry="4" opacity=".3"/>
             <g class="bounce">
               <circle class="b" cx="66" cy="62" r="42"/>
@@ -346,14 +377,14 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
             </g>
             <g transform="translate(112 22)"><path class="f tw" d="M0 -9 L3 -3 L9 0 L3 3 L0 9 L-3 3 L-9 0 L-3 -3Z"/></g>
           </svg>
-          <h3>Анимация</h3>
-          <div class="tags"><span class="tag">Эмодзи и стикеры</span><span class="tag">Lottie</span></div>
-          <p class="price"><small>от</small><b data-rub="1 200 ₽" data-usd="13 $">1 200 ₽</b></p>
-          <a class="btn" href="https://t.me/lewdlys" target="_blank" rel="noopener">Заказать <span class="arrow">↗</span></a>
+          <h3 data-i18n="anim">Анимация</h3>
+          <div class="tags"><span class="tag" data-i18n="cat_emoji">Эмодзи и стикеры</span><span class="tag">Lottie</span></div>
+          <p class="price"><small data-i18n="from">от</small><b data-rub="1 200 ₽" data-usd="13 $">1 200 ₽</b></p>
+          <a class="btn" href="https://t.me/lewdlys" target="_blank" rel="noopener"><span class="t" data-i18n="order">Заказать</span> <span class="arrow">↗</span></a>
         </article>
 
         <article class="card swap">
-          <svg class="art" viewBox="0 0 132 132" role="img" aria-label="Рисование векторной кривой">
+          <svg class="art" viewBox="0 0 132 132" role="img" aria-label="Рисование векторной кривой" data-i18n-aria="a_vector">
             <path class="o" d="M18 100 L18 100 M114 100 L114 100"/>
             <path class="s" d="M20 98 L44 30 M112 98 L88 30" style="stroke-width:2;stroke-dasharray:3 6"/>
             <path class="s draw" d="M20 98 C44 18 88 18 112 98"/>
@@ -362,10 +393,10 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
             <circle class="b float" cx="44" cy="30" r="7"/>
             <circle class="b float" cx="88" cy="30" r="7" style="animation-delay:.5s"/>
           </svg>
-          <h3>Вектор</h3>
-          <div class="tags"><span class="tag">Персонажи</span><span class="tag">Сцены</span><span class="tag">Под ваш стиль</span></div>
-          <p class="price"><small>от</small><b data-rub="1 200 ₽" data-usd="13 $">1 200 ₽</b></p>
-          <a class="btn" href="https://t.me/lewdlys" target="_blank" rel="noopener">Заказать <span class="arrow">↗</span></a>
+          <h3 data-i18n="cat_vector">Вектор</h3>
+          <div class="tags"><span class="tag" data-i18n="chars">Персонажи</span><span class="tag" data-i18n="scenes">Сцены</span><span class="tag" data-i18n="style">Под ваш стиль</span></div>
+          <p class="price"><small data-i18n="from">от</small><b data-rub="1 200 ₽" data-usd="13 $">1 200 ₽</b></p>
+          <a class="btn" href="https://t.me/lewdlys" target="_blank" rel="noopener"><span class="t" data-i18n="order">Заказать</span> <span class="arrow">↗</span></a>
         </article>
       </div>
     </div>
@@ -373,21 +404,21 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
 
   <div class="marquee rev" aria-hidden="true">
     <div class="track">
-      <div class="outline"><span>Портфолио</span><i class="star"></i><span>Портфолио</span><i class="star"></i><span>Портфолио</span><i class="star"></i><span>Портфолио</span><i class="star"></i><span>Портфолио</span><i class="star"></i></div>
-      <div class="outline"><span>Портфолио</span><i class="star"></i><span>Портфолио</span><i class="star"></i><span>Портфолио</span><i class="star"></i><span>Портфолио</span><i class="star"></i><span>Портфолио</span><i class="star"></i></div>
+      <div class="outline"><span data-i18n="portfolio">Портфолио</span><i class="star"></i><span data-i18n="portfolio">Портфолио</span><i class="star"></i><span data-i18n="portfolio">Портфолио</span><i class="star"></i><span data-i18n="portfolio">Портфолио</span><i class="star"></i><span data-i18n="portfolio">Портфолио</span><i class="star"></i></div>
+      <div class="outline"><span data-i18n="portfolio">Портфолио</span><i class="star"></i><span data-i18n="portfolio">Портфолио</span><i class="star"></i><span data-i18n="portfolio">Портфолио</span><i class="star"></i><span data-i18n="portfolio">Портфолио</span><i class="star"></i><span data-i18n="portfolio">Портфолио</span><i class="star"></i></div>
     </div>
   </div>
 
   <section id="portfolio">
     <div class="wrap">
       <div class="sec-head">
-        <h2>Работы</h2>
-        <div class="filters" id="filters" role="group" aria-label="Группы работ"></div>
+        <h2 data-i18n="work_h">Работы</h2>
+        <div class="filters" id="filters" role="group" aria-label="Группы работ" data-i18n-aria="groups_aria"></div>
       </div>
 
       <div class="grid demo" id="demo">
         <figure class="tile swap" data-cat="emoji">
-          <svg viewBox="0 0 200 200" role="img" aria-label="Смайл">
+          <svg viewBox="0 0 200 200" role="img" aria-label="Смайл" data-i18n-aria="a_smile">
             <ellipse class="f shadow" cx="100" cy="170" rx="40" ry="6" opacity=".3"/>
             <g class="bounce">
               <circle class="b" cx="100" cy="96" r="58"/>
@@ -395,21 +426,21 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
               <path class="s" d="M76 114 Q100 140 124 114"/>
             </g>
           </svg>
-          <figcaption class="cap">Эмодзи</figcaption>
+          <figcaption class="cap" data-i18n="cap_emoji">Эмодзи</figcaption>
         </figure>
 
         <figure class="tile swap" data-cat="emoji">
-          <svg viewBox="0 0 200 200" role="img" aria-label="Пульсирующее сердце">
+          <svg viewBox="0 0 200 200" role="img" aria-label="Пульсирующее сердце" data-i18n-aria="a_heart">
             <path class="b pulse" d="M100 160 C40 120 36 70 70 58 C88 52 100 66 100 76 C100 66 112 52 130 58 C164 70 160 120 100 160 Z"/>
             <path class="s" d="M70 78 C62 82 60 92 63 99" style="stroke-width:5"/>
             <g transform="translate(160 42)"><path class="f tw" d="M0 -10 L3 -3 L10 0 L3 3 L0 10 L-3 3 L-10 0 L-3 -3Z"/></g>
             <g transform="translate(38 152)"><path class="f tw d" d="M0 -8 L2.5 -2.5 L8 0 L2.5 2.5 L0 8 L-2.5 2.5 L-8 0 L-2.5 -2.5Z"/></g>
           </svg>
-          <figcaption class="cap">Эмодзи</figcaption>
+          <figcaption class="cap" data-i18n="cap_emoji">Эмодзи</figcaption>
         </figure>
 
         <figure class="tile swap" data-cat="lottie">
-          <svg viewBox="0 0 200 200" role="img" aria-label="Качающаяся звезда">
+          <svg viewBox="0 0 200 200" role="img" aria-label="Качающаяся звезда" data-i18n-aria="a_star">
             <polygon class="b wob" points="100,40 115.1,78.6 156.3,80.8 124.2,106.8 134.9,146.7 100,124 65.1,146.7 75.8,106.8 43.7,80.8 84.9,78.6"/>
             <g transform="translate(38 48)"><path class="f tw" d="M0 -12 L4 -4 L12 0 L4 4 L0 12 L-4 4 L-12 0 L-4 -4Z"/></g>
             <g transform="translate(164 60)"><path class="f tw d" d="M0 -9 L3 -3 L9 0 L3 3 L0 9 L-3 3 L-9 0 L-3 -3Z"/></g>
@@ -419,7 +450,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
         </figure>
 
         <figure class="tile wide swap" data-cat="vector">
-          <svg viewBox="0 0 400 200" role="img" aria-label="Закат над холмами">
+          <svg viewBox="0 0 400 200" role="img" aria-label="Закат над холмами" data-i18n-aria="a_sunset">
             <circle class="b" cx="290" cy="86" r="34"/>
             <circle class="o spin" cx="290" cy="86" r="50"/>
             <g class="cloud"><path class="b" d="M0 50 h56 a12 12 0 0 0 0 -24 a18 18 0 0 0 -34 4 a14 14 0 0 0 -22 20Z"/></g>
@@ -429,11 +460,11 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
             <g class="sway"><path class="b" d="M60 176 L72 140 L84 176Z"/></g>
             <g class="sway" style="animation-delay:.6s"><path class="b" d="M92 180 L108 130 L124 180Z"/></g>
           </svg>
-          <figcaption class="cap">Вектор</figcaption>
+          <figcaption class="cap" data-i18n="cat_vector">Вектор</figcaption>
         </figure>
 
         <figure class="tile swap" data-cat="vector">
-          <svg viewBox="0 0 200 200" role="img" aria-label="Привидение">
+          <svg viewBox="0 0 200 200" role="img" aria-label="Привидение" data-i18n-aria="a_ghost">
             <ellipse class="f shadow" cx="100" cy="176" rx="40" ry="5" opacity=".3"/>
             <g class="float">
               <path class="b" d="M58 152 V96 C58 62 76 44 100 44 C124 44 142 62 142 96 V152 L128 141 L114 152 L100 141 L86 152 L72 141 Z"/>
@@ -441,11 +472,11 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
               <ellipse class="f talk" cx="100" cy="114" rx="6" ry="8"/>
             </g>
           </svg>
-          <figcaption class="cap">Вектор</figcaption>
+          <figcaption class="cap" data-i18n="cat_vector">Вектор</figcaption>
         </figure>
 
         <figure class="tile swap" data-cat="lottie">
-          <svg viewBox="0 0 200 200" role="img" aria-label="Планета на орбите">
+          <svg viewBox="0 0 200 200" role="img" aria-label="Планета на орбите" data-i18n-aria="a_planet">
             <g transform="rotate(-20 100 100)">
               <path class="s" d="M30 100 a70 20 0 0 1 140 0"/>
               <circle class="b" cx="100" cy="100" r="36"/>
@@ -459,7 +490,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
         </figure>
 
         <figure class="tile swap" data-cat="lottie">
-          <svg viewBox="0 0 200 200" role="img" aria-label="Мигающая молния">
+          <svg viewBox="0 0 200 200" role="img" aria-label="Мигающая молния" data-i18n-aria="a_bolt">
             <g class="flash"><path class="b" d="M112 28 L60 112 H96 L84 172 L140 84 H104Z"/></g>
             <path class="s" d="M150 50 l12 -8 M158 76 l16 0 M48 60 l-14 -6 M42 134 l-16 6" style="stroke-width:3"/>
           </svg>
@@ -467,7 +498,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
         </figure>
 
         <figure class="tile swap" data-cat="emoji">
-          <svg viewBox="0 0 200 200" role="img" aria-label="Чашка с паром">
+          <svg viewBox="0 0 200 200" role="img" aria-label="Чашка с паром" data-i18n-aria="a_cup">
             <path class="s steam" d="M80 74 C70 62 90 54 80 40"/>
             <path class="s steam d" d="M104 74 C94 62 114 54 104 40"/>
             <path class="s steam" d="M128 74 C118 62 138 54 128 40" style="animation-delay:1.3s"/>
@@ -475,7 +506,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
             <path class="s" d="M150 100 H162 C176 100 176 134 160 134 H149"/>
             <path class="s" d="M50 178 H162"/>
           </svg>
-          <figcaption class="cap">Эмодзи</figcaption>
+          <figcaption class="cap" data-i18n="cap_emoji">Эмодзи</figcaption>
         </figure>
       </div>
 
@@ -489,23 +520,23 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
 
   <section id="order">
     <div class="wrap">
-      <div class="sec-head"><h2>Как заказать</h2></div>
+      <div class="sec-head"><h2 data-i18n="how_h">Как заказать</h2></div>
       <ol class="steps">
         <li>
           <div class="ico"><svg viewBox="0 0 36 36" aria-hidden="true"><path class="s" d="M5 6h26v18H17l-7 6v-6H5z"/></svg></div>
-          <b>Пишете</b><span>Задача и референсы</span>
+          <b data-i18n="s1">Пишете</b><span data-i18n="s1d">Задача и референсы</span>
         </li>
         <li>
           <div class="ico"><svg viewBox="0 0 36 36" aria-hidden="true"><path class="s" d="M6 6h12l12 12-12 12L6 18z"/><circle class="f" cx="12" cy="12" r="2.5"/></svg></div>
-          <b>Цена</b><span>Стоимость и срок</span>
+          <b data-i18n="s2">Цена</b><span data-i18n="s2d">Стоимость и срок</span>
         </li>
         <li>
           <div class="ico"><svg viewBox="0 0 36 36" aria-hidden="true"><path class="s" d="M7 29l2-8 16-16 6 6-16 16z M22 8l6 6"/></svg></div>
-          <b>Правки</b><span>Показываю до финала</span>
+          <b data-i18n="s3">Правки</b><span data-i18n="s3d">Показываю до финала</span>
         </li>
         <li>
           <div class="ico"><svg viewBox="0 0 36 36" aria-hidden="true"><path class="s" d="M6 19l8 8 16-18"/></svg></div>
-          <b>Готово</b><span>Файлы у вас</span>
+          <b data-i18n="s4">Готово</b><span data-i18n="s4d">Файлы у вас</span>
         </li>
       </ol>
     </div>
@@ -513,21 +544,21 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
 
   <div class="marquee dark" aria-hidden="true">
     <div class="track">
-      <div><span>Пишите</span><i class="star"></i><span>Пишите</span><i class="star"></i><span>Пишите</span><i class="star"></i><span>Пишите</span><i class="star"></i><span>Пишите</span><i class="star"></i></div>
-      <div><span>Пишите</span><i class="star"></i><span>Пишите</span><i class="star"></i><span>Пишите</span><i class="star"></i><span>Пишите</span><i class="star"></i><span>Пишите</span><i class="star"></i></div>
+      <div><span data-i18n="write">Пишите</span><i class="star"></i><span data-i18n="write">Пишите</span><i class="star"></i><span data-i18n="write">Пишите</span><i class="star"></i><span data-i18n="write">Пишите</span><i class="star"></i><span data-i18n="write">Пишите</span><i class="star"></i></div>
+      <div><span data-i18n="write">Пишите</span><i class="star"></i><span data-i18n="write">Пишите</span><i class="star"></i><span data-i18n="write">Пишите</span><i class="star"></i><span data-i18n="write">Пишите</span><i class="star"></i><span data-i18n="write">Пишите</span><i class="star"></i></div>
     </div>
   </div>
 
   <section id="contacts">
     <div class="wrap">
-      <div class="sec-head"><h2>Контакты</h2></div>
+      <div class="sec-head"><h2 data-i18n="contacts_h">Контакты</h2></div>
       <div class="links">
         <a class="big-link swap" href="https://t.me/lewdlys" target="_blank" rel="noopener">
-          <div><span class="mono">ЛС</span><strong>@lewdlys</strong></div>
+          <div><span class="mono" data-i18n="dm">Личные сообщения</span><strong>@lewdlys</strong></div>
           <span class="arrow">↗</span>
         </a>
         <a class="big-link swap" href="https://t.me/DS_lewdly" target="_blank" rel="noopener">
-          <div><span class="mono">Канал</span><strong>@DS_lewdly</strong></div>
+          <div><span class="mono" data-i18n="channel">Канал</span><strong>@DS_lewdly</strong></div>
           <span class="arrow">↗</span>
         </a>
       </div>
@@ -538,6 +569,91 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
 <div class="wrap">
   <footer class="mono"><span>© 2026 Lewdly</span><span>Motion / Vector</span></footer>
 </div>
+
+<script>
+(function () {
+  var D = {
+    ru: {
+      nav_aria: 'Разделы', lang_aria: 'Язык', theme_dark: 'Включить тёмную тему', theme_light: 'Включить светлую тему',
+      price_h: 'Прайс', work_h: 'Работы', contacts_h: 'Контакты',
+      h1a: 'Двигаю', h1b: 'и рисую',
+      cat_emoji: 'Эмодзи и стикеры', cat_vector: 'Вектор',
+      cta_dm: 'Написать в личные сообщения', channel: 'Канал', dm: 'Личные сообщения',
+      a_stage: 'Персонаж, который следит за курсором',
+      cur_aria: 'Валюта', a_bounce: 'Прыгающий смайл', anim: 'Анимация', from: 'от', order: 'Заказать',
+      a_vector: 'Рисование векторной кривой', chars: 'Персонажи', scenes: 'Сцены', style: 'Под ваш стиль',
+      portfolio: 'Портфолио', groups_aria: 'Группы работ',
+      a_smile: 'Смайл', a_heart: 'Пульсирующее сердце', a_star: 'Качающаяся звезда', a_sunset: 'Закат над холмами',
+      a_ghost: 'Привидение', a_planet: 'Планета на орбите', a_bolt: 'Мигающая молния', a_cup: 'Чашка с паром',
+      cap_emoji: 'Эмодзи',
+      how_h: 'Как заказать', s1: 'Пишете', s1d: 'Задача и референсы', s2: 'Цена', s2d: 'Стоимость и срок',
+      s3: 'Правки', s3d: 'Показываю до финала', s4: 'Готово', s4d: 'Файлы у вас', write: 'Пишите',
+      all: 'Все', bg: 'Фон', cv_gray: 'серый', cv_white: 'белый', cv_black: 'чёрный'
+    },
+    en: {
+      nav_aria: 'Sections', lang_aria: 'Language', theme_dark: 'Switch to dark theme', theme_light: 'Switch to light theme',
+      price_h: 'Pricing', work_h: 'Work', contacts_h: 'Contacts',
+      h1a: 'I animate', h1b: '& I draw',
+      cat_emoji: 'Emoji & stickers', cat_vector: 'Vector',
+      cta_dm: 'Send a direct message', channel: 'Channel', dm: 'Direct messages',
+      a_stage: 'A character whose eyes follow the cursor',
+      cur_aria: 'Currency', a_bounce: 'Bouncing smiley', anim: 'Animation', from: 'from', order: 'Order',
+      a_vector: 'Drawing a vector curve', chars: 'Characters', scenes: 'Scenes', style: 'In your style',
+      portfolio: 'Portfolio', groups_aria: 'Work groups',
+      a_smile: 'Smiley', a_heart: 'Pulsing heart', a_star: 'Swaying star', a_sunset: 'Sunset over hills',
+      a_ghost: 'Ghost', a_planet: 'Planet in orbit', a_bolt: 'Flashing lightning', a_cup: 'Steaming cup',
+      cap_emoji: 'Emoji',
+      how_h: 'How to order', s1: 'You write', s1d: 'Brief and references', s2: 'Price', s2d: 'Cost and timeline',
+      s3: 'Revisions', s3d: 'I show you before the final', s4: 'Done', s4d: 'Files are yours', write: 'Write me',
+      all: 'All', bg: 'Background', cv_gray: 'gray', cv_white: 'white', cv_black: 'black'
+    }
+  };
+
+  function load(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function save(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+  /* language: saved choice, else Russian for Russian browsers and English for the rest */
+  var lang = load('lw-lang');
+  if (lang !== 'ru' && lang !== 'en') {
+    var list = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'ru'];
+    lang = list.some(function (l) { return /^ru/i.test(l); }) ? 'ru' : 'en';
+  }
+  /* theme: light unless the visitor switched it */
+  var theme = load('lw-theme') === 'dark' ? 'dark' : 'light';
+
+  var cbs = [];
+  function t(k) { var v = D[lang][k]; return v != null ? v : (D.ru[k] != null ? D.ru[k] : k); }
+  function has(k) { return D.ru[k] != null; }
+
+  var ruBtn = document.getElementById('lang-ru'), enBtn = document.getElementById('lang-en');
+  var themeBtn = document.getElementById('theme-btn');
+  var meta = document.querySelector('meta[name="theme-color"]');
+
+  function applyTheme() {
+    if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    else document.documentElement.removeAttribute('data-theme');
+    if (meta) meta.setAttribute('content', theme === 'dark' ? '#0A0A0A' : '#FFFFFF');
+    themeBtn.setAttribute('aria-label', t(theme === 'dark' ? 'theme_light' : 'theme_dark'));
+  }
+  function applyLang() {
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(function (n) { n.textContent = t(n.getAttribute('data-i18n')); });
+    document.querySelectorAll('[data-i18n-aria]').forEach(function (n) { n.setAttribute('aria-label', t(n.getAttribute('data-i18n-aria'))); });
+    ruBtn.setAttribute('aria-pressed', lang === 'ru' ? 'true' : 'false');
+    enBtn.setAttribute('aria-pressed', lang === 'en' ? 'true' : 'false');
+    applyTheme();
+    cbs.forEach(function (f) { f(); });
+  }
+  function setLang(l) { if (l === lang) return; lang = l; save('lw-lang', l); applyLang(); }
+
+  ruBtn.addEventListener('click', function () { setLang('ru'); });
+  enBtn.addEventListener('click', function () { setLang('en'); });
+  themeBtn.addEventListener('click', function () { theme = theme === 'dark' ? 'light' : 'dark'; save('lw-theme', theme); applyTheme(); });
+
+  window.LW = { t: t, has: has, onLang: function (f) { cbs.push(f); } };
+  applyLang();
+})();
+</script>
 
 <script>
 (function () {
@@ -588,7 +704,8 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var cats = [], filter = 'all', canvas = 0, anims = [], io = null;
-  var CANVAS = [['gray', 'серый'], ['white', 'белый'], ['black', 'чёрный']];
+  var CANVAS = ['gray', 'white', 'black'], ready = false;
+  function catName(c) { return LW.has('cat_' + c.id) ? LW.t('cat_' + c.id) : c.name; }
   var worksEl = $('works'), filtersEl = $('filters'), demoEl = $('demo');
 
   function url(p) { return encodeURI(p); }
@@ -677,7 +794,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
   function renderFilters() {
     filtersEl.textContent = '';
     if (!cats.length) return;
-    var items = [['all', 'Все']].concat(cats.map(function (c) { return [c.id, c.name]; }));
+    var items = [['all', LW.t('all')]].concat(cats.map(function (c) { return [c.id, catName(c)]; }));
     items.forEach(function (f) {
       var b = el('button', 'chip', f[1]);
       b.type = 'button';
@@ -685,7 +802,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
       b.addEventListener('click', function () { filter = f[0]; render(); });
       filtersEl.appendChild(b);
     });
-    var bg = el('button', 'chip', 'Фон: ' + CANVAS[canvas][1]);
+    var bg = el('button', 'chip', LW.t('bg') + ': ' + LW.t('cv_' + CANVAS[canvas]));
     bg.type = 'button';
     bg.addEventListener('click', function () { canvas = (canvas + 1) % CANVAS.length; render(); });
     filtersEl.appendChild(bg);
@@ -698,7 +815,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
     var sec = el('section', 'group');
     sec.style.padding = '0';
     var head = el('div', 'group-head');
-    head.appendChild(el('h3', null, c.name));
+    head.appendChild(el('h3', null, catName(c)));
     head.appendChild(el('span', 'mono', String(total)));
     sec.appendChild(head);
     c.groups.forEach(function (g) {
@@ -713,7 +830,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
     anims = [];
     demoEl.hidden = cats.length > 0;
     worksEl.textContent = '';
-    worksEl.setAttribute('data-canvas', CANVAS[canvas][0]);
+    worksEl.setAttribute('data-canvas', CANVAS[canvas]);
     if (filter !== 'all' && !cats.some(function (c) { return c.id === filter; })) filter = 'all';
     renderFilters();
     cats.forEach(function (c) {
@@ -728,8 +845,10 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
       if (d && Array.isArray(d.categories)) {
         cats = d.categories.filter(function (c) { return c && Array.isArray(c.groups) && c.groups.length; });
       }
+      ready = true;
       render();
     });
+  LW.onLang(function () { if (ready) render(); });
 })();
 </script>
 </body>
