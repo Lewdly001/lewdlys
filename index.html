@@ -244,6 +244,8 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
   .wgrid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
   .work { border-radius: 16px; border-width: 1.5px; }
   .work:hover { transform: none; }
+  .sub-head { margin: 30px 0 12px; padding-top: 12px; border-top: 2px solid var(--fg); }
+  .sub-head h4 { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.04em; }
   .work .media { padding: 8%; }
   .work .cap { left: 6px; bottom: 6px; max-width: calc(100% - 12px); padding: 2px 7px; font-size: .56rem; letter-spacing: .03em; }
 }
@@ -597,7 +599,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
   function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var groups = [], filter = 'all', canvas = 0, anims = [], io = null;
+  var cats = [], filter = 'all', canvas = 0, anims = [], io = null;
   var CANVAS = [['white', 'белый'], ['gray', 'серый'], ['black', 'чёрный']];
   var worksEl = $('works'), filtersEl = $('filters'), demoEl = $('demo');
 
@@ -686,8 +688,9 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
 
   function renderFilters() {
     filtersEl.textContent = '';
-    if (!groups.length) return;
-    [['all', 'Все'], ['anim', 'Эмодзи и стикеры'], ['vector', 'Вектор']].forEach(function (f) {
+    if (!cats.length) return;
+    var items = [['all', 'Все']].concat(cats.map(function (c) { return [c.id, c.name]; }));
+    items.forEach(function (f) {
       var b = el('button', 'chip', f[1]);
       b.type = 'button';
       b.setAttribute('aria-pressed', filter === f[0] ? 'true' : 'false');
@@ -700,23 +703,19 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
     filtersEl.appendChild(bg);
   }
 
-  /* category (emoji & stickers / vector) -> subgroups by project folder */
-  function buildCategory(title, test) {
-    var subs = [], total = 0;
-    groups.forEach(function (g) {
-      var list = g.works.filter(test);
-      if (list.length) { subs.push({ name: g.name, list: list }); total += list.length; }
-    });
-    if (!subs.length) return null;
+  /* category (folder works/<category>/) -> subgroups (folder works/<category>/<group>/) */
+  function buildCategory(c) {
+    var total = 0;
+    c.groups.forEach(function (g) { total += g.works.length; });
     var sec = el('section', 'group');
     sec.style.padding = '0';
     var head = el('div', 'group-head');
-    head.appendChild(el('h3', null, title));
+    head.appendChild(el('h3', null, c.name));
     head.appendChild(el('span', 'mono', String(total)));
     sec.appendChild(head);
-    subs.forEach(function (s) {
-      sec.appendChild(subHead(s.name, s.list.length));
-      sec.appendChild(buildGrid(s.list));
+    c.groups.forEach(function (g) {
+      if (g.name) sec.appendChild(subHead(g.name, g.works.length));
+      sec.appendChild(buildGrid(g.works));
     });
     return sec;
   }
@@ -724,27 +723,22 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
   function render() {
     anims.forEach(function (a) { try { a.destroy(); } catch (e) {} });
     anims = [];
-    demoEl.hidden = groups.length > 0;
+    demoEl.hidden = cats.length > 0;
     worksEl.textContent = '';
     worksEl.setAttribute('data-canvas', CANVAS[canvas][0]);
+    if (filter !== 'all' && !cats.some(function (c) { return c.id === filter; })) filter = 'all';
     renderFilters();
-    if (!groups.length) return;
-    if (filter !== 'vector') {
-      var a = buildCategory('Эмодзи и стикеры', isAnim);
-      if (a) worksEl.appendChild(a);
-    }
-    if (filter !== 'anim') {
-      var v = buildCategory('Вектор', function (w) { return !isAnim(w); });
-      if (v) worksEl.appendChild(v);
-    }
+    cats.forEach(function (c) {
+      if (filter === 'all' || filter === c.id) worksEl.appendChild(buildCategory(c));
+    });
   }
 
   fetch('works.json', { cache: 'no-store' })
     .then(function (r) { return r.ok ? r.json() : null; })
     .catch(function () { return null; })
     .then(function (d) {
-      if (d && Array.isArray(d.groups)) {
-        groups = d.groups.filter(function (g) { return g && Array.isArray(g.works) && g.works.length; });
+      if (d && Array.isArray(d.categories)) {
+        cats = d.categories.filter(function (c) { return c && Array.isArray(c.groups) && c.groups.length; });
       }
       render();
     });
