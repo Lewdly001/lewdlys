@@ -244,12 +244,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
 .sub-head h4 { margin: 0; font-family: var(--font-display); font-weight: 500; font-size: clamp(1.05rem, 2.4vw, 1.35rem); letter-spacing: -0.03em; text-transform: uppercase; }
 .sub-head h4::before { content: "/ "; color: var(--muted); }
 
-.subtabs { display: none; gap: 8px; margin: 20px 0 14px; }
-.subtabs .chip { min-height: 40px; padding: 6px 16px; font-size: .9rem; display: inline-flex; align-items: center; gap: 8px; }
-.subtabs .chip .mono { font-size: .68rem; letter-spacing: .04em; opacity: .7; }
-
 @media (max-width: 860px) {
-  .subtabs { display: flex; }
   .hero { grid-template-columns: 1fr; }
   .stage { order: -1; max-width: 300px; margin-inline: 0; }
   .prices { grid-template-columns: 1fr; }
@@ -600,8 +595,12 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
   function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var groups = [], active = 0, activeSub = 'motion', anims = [], io = null;
-  var phone = window.matchMedia ? matchMedia('(max-width: 860px)') : { matches: false };
+  var groups = [], cat = 'all', canvas = 'white', anims = [], io = null, vis = null;
+  var CATS = [
+    { id: 'motion', name: 'Эмодзи и стикеры', test: isAnim },
+    { id: 'vector', name: 'Вектор', test: function (w) { return !isAnim(w); } }
+  ];
+  var CANVAS = [['white', 'белый'], ['gray', 'серый'], ['black', 'чёрный']];
   var worksEl = $('works'), filtersEl = $('filters'), demoEl = $('demo');
 
   function url(p) { return encodeURI(p); }
@@ -649,20 +648,42 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
     if (w.kind === 'lottie') {
       node = el('div', 'lot');
       watch(node, function (n) { loadLottie(n, w.file); });
+      watchVisible(node);
     } else if (w.kind === 'video') {
       node = document.createElement('video');
       node.muted = true; node.loop = true; node.playsInline = true; node.preload = 'metadata';
       node.setAttribute('muted', ''); node.setAttribute('aria-label', w.title);
       watch(node, function (n) { loadVideo(n, w.file); });
+      watchVisible(node);
     } else {
       node = document.createElement('img');
       node.alt = w.title; node.loading = 'lazy'; node.src = url(w.file);
     }
     return node;
   }
+  /* play only what is on screen; a tap pauses/resumes and the choice sticks */
+  function watchVisible(node) {
+    if (reduce || !('IntersectionObserver' in window)) return;
+    if (!vis) {
+      vis = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          var n = e.target;
+          if (n._held) return;
+          if (n._anim) { e.isIntersecting ? n._anim.play() : n._anim.pause(); }
+          else if (n.tagName === 'VIDEO' && n.getAttribute('src')) {
+            if (e.isIntersecting) { var p = n.play(); if (p && p.catch) p.catch(function () {}); } else n.pause();
+          }
+        });
+      }, { rootMargin: '60px' });
+    }
+    vis.observe(node);
+  }
   function toggle(w, node) {
-    if (w.kind === 'lottie' && node._anim) { node._anim.isPaused ? node._anim.play() : node._anim.pause(); }
-    else if (w.kind === 'video') { node.paused ? node.play() : node.pause(); }
+    if (w.kind === 'lottie' && node._anim) {
+      if (node._anim.isPaused) { node._held = false; node._anim.play(); } else { node._held = true; node._anim.pause(); }
+    } else if (w.kind === 'video') {
+      if (node.paused) { node._held = false; node.play(); } else { node._held = true; node.pause(); }
+    }
   }
 
   function buildWork(w) {
@@ -687,63 +708,68 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
     return sh;
   }
 
+  function present() {
+    return CATS.filter(function (c) { return groups.some(function (g) { return g.works.some(c.test); }); });
+  }
+
   function renderFilters() {
     filtersEl.textContent = '';
     if (!groups.length) return;
-    groups.forEach(function (g, i) {
-      var b = el('button', 'chip', g.name);
+    var opts = [{ id: 'all', name: 'Все' }].concat(present());
+    opts.forEach(function (o) {
+      var b = el('button', 'chip', o.name);
       b.type = 'button';
-      b.setAttribute('aria-pressed', i === active ? 'true' : 'false');
-      b.addEventListener('click', function () { active = i; render(); });
+      b.setAttribute('aria-pressed', o.id === cat ? 'true' : 'false');
+      b.addEventListener('click', function () { cat = o.id; render(); });
       filtersEl.appendChild(b);
     });
+    var bg = el('button', 'chip');
+    bg.type = 'button';
+    function label() { return 'Фон: ' + CANVAS.filter(function (c) { return c[0] === canvas; })[0][1]; }
+    bg.textContent = label();
+    bg.addEventListener('click', function () {
+      var i = CANVAS.map(function (c) { return c[0]; }).indexOf(canvas);
+      canvas = CANVAS[(i + 1) % CANVAS.length][0];
+      worksEl.setAttribute('data-canvas', canvas);
+      bg.textContent = label();
+    });
+    filtersEl.appendChild(bg);
   }
 
   function render() {
     anims.forEach(function (a) { try { a.destroy(); } catch (e) {} });
     anims = [];
+    if (vis) { vis.disconnect(); }
     demoEl.hidden = groups.length > 0;
     worksEl.textContent = '';
+    worksEl.setAttribute('data-canvas', canvas);
+    var cats = present();
+    if (cat !== 'all' && !cats.some(function (c) { return c.id === cat; })) cat = 'all';
     renderFilters();
     if (!groups.length) return;
-    if (active >= groups.length) active = 0;
-    var g = groups[active];
 
-    var motion = g.works.filter(isAnim);
-    var vector = g.works.filter(function (w) { return !isAnim(w); });
-    var sec = el('section', 'group');
-    sec.style.padding = '0';
-    var head = el('div', 'group-head');
-    head.appendChild(el('h3', null, g.name));
-    head.appendChild(el('span', 'mono', String(g.works.length)));
-    sec.appendChild(head);
-    var subs = [];
-    if (motion.length) subs.push({ id: 'motion', name: 'Анимации', list: motion });
-    if (vector.length) subs.push({ id: 'vector', name: 'Вектор', list: vector });
-
-    if (phone.matches && subs.length > 1) {
-      /* phone: subgroups are tabs, only one is mounted at a time */
-      if (!subs.some(function (x) { return x.id === activeSub; })) activeSub = subs[0].id;
-      var tabs = el('div', 'subtabs');
-      tabs.setAttribute('role', 'group');
-      tabs.setAttribute('aria-label', 'Тип работ');
-      subs.forEach(function (x) {
-        var b = el('button', 'chip', x.name);
-        b.type = 'button';
-        b.appendChild(el('span', 'mono', String(x.list.length)));
-        b.setAttribute('aria-pressed', x.id === activeSub ? 'true' : 'false');
-        b.addEventListener('click', function () { activeSub = x.id; render(); });
-        tabs.appendChild(b);
+    /* category -> subgroups (one per folder), same on desktop and phone */
+    cats.forEach(function (c) {
+      if (cat !== 'all' && c.id !== cat) return;
+      var sec = el('section', 'group');
+      sec.style.padding = '0';
+      var head = el('div', 'group-head');
+      head.appendChild(el('h3', null, c.name));
+      var total = 0;
+      var body = [];
+      groups.forEach(function (g) {
+        var list = g.works.filter(c.test);
+        if (!list.length) return;
+        total += list.length;
+        body.push(subHead(g.name, list.length));
+        body.push(buildGrid(list));
       });
-      sec.appendChild(tabs);
-      subs.forEach(function (x) { if (x.id === activeSub) sec.appendChild(buildGrid(x.list)); });
-    } else {
-      subs.forEach(function (x) { sec.appendChild(subHead(x.name, x.list.length)); sec.appendChild(buildGrid(x.list)); });
-    }
-    worksEl.appendChild(sec);
+      head.appendChild(el('span', 'mono', String(total)));
+      sec.appendChild(head);
+      body.forEach(function (n) { sec.appendChild(n); });
+      worksEl.appendChild(sec);
+    });
   }
-
-  if (phone.addEventListener) phone.addEventListener('change', function () { if (groups.length) render(); });
 
   fetch('works.json', { cache: 'no-store' })
     .then(function (r) { return r.ok ? r.json() : null; })
