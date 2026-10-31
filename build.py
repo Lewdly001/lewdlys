@@ -2,23 +2,17 @@
 """Собирает works.json из папки works/.
 
 works/
-  emoji/                 группа
-    T2X2/                подгруппа: на сайте покажется как есть, T2X2
-      heart.tgs
-    YAMAKASI/
-      star.json
-    solo.tgs             можно и без подгруппы, прямо в группе
-  lottie/
-  vector/
-    TRUDI/
-      logo.svg
+  T2X2/            группа (проект или заказчик)
+    heart.tgs      анимации: .tgs .json .webm .mp4
+    smile.webm
+    logo.svg       вектор: .svg
+  YAMAKASI/
+  TRUDI/
 
-Баннер вверху сайта показывает эмодзи из группы emoji (с переключением по подгруппам).
-
-Группа = папка в works/, подгруппа = папка внутри группы. Глубже не читается.
-Папка, которой нет в NAMES, показывается под своим именем как есть (T2X2 -> T2X2).
-В NAMES (ключ в нижнем регистре) задавай только красивые названия вместо имени папки.
-Цифры в начале ("1_t2x2") задают порядок и не показываются.
+Одна папка = одна группа. Внутри группы сайт сам делит работы на «Анимации» и «Вектор»
+по типу файла, раскладывать по папкам не нужно. Вложенные папки читаются тоже.
+Название группы на сайте = имя папки как есть (T2X2 -> T2X2).
+Цифры в начале ("1_T2X2") задают порядок групп и не показываются.
 Имя файла = название работы. Файлы идут по порядку имён.
 
 Запуск:  python build.py
@@ -27,12 +21,9 @@ import json
 import os
 import re
 
-# папка -> название на сайте (правь как хочешь, добавляй свои)
+# необязательно: красивое название вместо имени папки (ключ в нижнем регистре)
 NAMES = {
-    "emoji": "Эмодзи и стикеры",
-    "emoji-stickers": "Эмодзи и стикеры",
-    "lottie": "Lottie",
-    "vector": "Вектор",
+    # "yamakasi": "Ямакаси",
 }
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -60,19 +51,21 @@ def label(folder):
     return NAMES.get(c.lower(), c or folder)
 
 
-def dirs(path):
-    return [d for d in sorted(os.listdir(path), key=natural)
-            if not d.startswith(".") and os.path.isdir(os.path.join(path, d))]
-
-
 def scan(path, rel):
+    """Файлы папки, затем файлы вложенных папок."""
     items = []
-    for f in sorted(os.listdir(path), key=natural):
+    names = sorted(os.listdir(path), key=natural)
+    for f in names:
+        full = os.path.join(path, f)
         stem, ext = os.path.splitext(f)
         kind = KINDS.get(ext.lower())
-        if f.startswith(".") or not kind or not os.path.isfile(os.path.join(path, f)):
+        if f.startswith(".") or not kind or not os.path.isfile(full):
             continue
         items.append({"title": clean(stem) or stem, "file": rel + "/" + f, "kind": kind})
+    for d in names:
+        full = os.path.join(path, d)
+        if not d.startswith(".") and os.path.isdir(full):
+            items += scan(full, rel + "/" + d)
     return items
 
 
@@ -80,30 +73,24 @@ def main():
     if not os.path.isdir(WORKS):
         os.makedirs(WORKS)
     groups = []
-    for g in dirs(WORKS):
+    for g in sorted(os.listdir(WORKS), key=natural):
         gpath = os.path.join(WORKS, g)
-        direct = scan(gpath, "works/" + g)
-        subs = []
-        for s in dirs(gpath):
-            items = scan(os.path.join(gpath, s), "works/%s/%s" % (g, s))
-            if items:
-                subs.append({"name": label(s), "works": items})
-        if direct or subs:
-            groups.append({"id": clean(g).lower(), "name": label(g), "works": direct, "subs": subs})
+        if g.startswith(".") or not os.path.isdir(gpath):
+            continue
+        items = scan(gpath, "works/" + g)
+        if items:
+            groups.append({"id": clean(g).lower(), "name": label(g), "works": items})
 
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump({"groups": groups}, fh, ensure_ascii=False, indent=1)
 
-    total = 0
     print("works.json готов")
+    total = 0
     for g in groups:
-        n = len(g["works"]) + sum(len(s["works"]) for s in g["subs"])
-        total += n
-        print("  %s: %d" % (g["name"], n))
-        if g["works"]:
-            print("      (без подгруппы): %d" % len(g["works"]))
-        for s in g["subs"]:
-            print("      %s: %d" % (s["name"], len(s["works"])))
+        motion = sum(1 for w in g["works"] if w["kind"] in ("lottie", "video"))
+        vector = len(g["works"]) - motion
+        total += len(g["works"])
+        print("  %s: анимации %d, вектор %d" % (g["name"], motion, vector))
     print("Всего работ: %d" % total)
 
 

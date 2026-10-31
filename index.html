@@ -248,11 +248,10 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
 .be .lot svg { width: 100%; height: 100%; display: block; }
 @media (max-width: 600px) {
   .showcase { display: block; }
-  .banner { min-height: calc((100vw - 32px) * 1.1); padding: 64px 18px 52px; border-radius: 22px; }
+  .banner { min-height: calc((100vw - 32px) * 1.777); padding: 112px 22px 90px; border-radius: 22px; }
   .banner-grid { gap: 10px; }
   .be { width: calc((100% - 20px) / 3); }
 }
-.banner-chips { margin-top: 14px; }
 .sub-head { display: flex; align-items: baseline; gap: 12px; margin: 28px 0 14px; }
 .sub-head h4 { margin: 0; font-family: var(--font-display); font-weight: 500; font-size: clamp(1.05rem, 2.4vw, 1.35rem); letter-spacing: -0.03em; text-transform: uppercase; }
 .sub-head h4::before { content: "/ "; color: var(--muted); }
@@ -411,7 +410,6 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
           <div class="be"><svg viewBox="0 0 200 200" aria-hidden="true"><path class="s steam" d="M80 74 C70 62 90 54 80 40"/><path class="s steam d" d="M110 74 C100 62 120 54 110 40"/><path class="b" d="M60 88 H150 V128 C150 154 132 168 105 168 C78 168 60 154 60 128Z"/><path class="s" d="M150 100 H162 C176 100 176 134 160 134 H149"/></svg></div>
         </div>
       </div>
-      <div class="filters banner-chips" id="banner-chips" role="group" aria-label="Группы эмодзи"></div>
       </div>
 
       <div class="grid demo" id="demo">
@@ -615,14 +613,13 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
   function $(id) { return document.getElementById(id); }
   function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var CANVAS = [['белый', 'white'], ['серый', 'gray'], ['чёрный', 'black']];
 
-  var groups = [], bannerTab = 0, active = 'all', canvasIdx = 0, anims = [], io = null;
-  var BANNER_MAX = 18;
-  var worksEl = $('works'), filtersEl = $('filters'), demoEl = $('demo');
-  var bannerEl = $('banner-grid'), bannerChips = $('banner-chips');
+  var groups = [], active = 0, anims = [], io = null;
+  var BANNER_MAX = 12;
+  var worksEl = $('works'), filtersEl = $('filters'), demoEl = $('demo'), bannerEl = $('banner-grid');
 
   function url(p) { return encodeURI(p); }
+  function isAnim(w) { return w.kind === 'lottie' || w.kind === 'video'; }
 
   /* load heavy media only when it is near the screen */
   function watch(node, fn) {
@@ -677,45 +674,9 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
     }
     return node;
   }
-
-  function emojiGroup() {
-    for (var i = 0; i < groups.length; i++) {
-      if (groups[i].id === 'emoji' || groups[i].id === 'emoji-stickers') return groups[i];
-    }
-    return null;
-  }
-
-  function renderBanner() {
-    var g = emojiGroup();
-    if (!g) return;
-    var all = g.works.slice();
-    g.subs.forEach(function (x) { all = all.concat(x.works); });
-    var tabs = [{ name: 'Все', works: all }];
-    if (g.subs.length) g.subs.forEach(function (x) { tabs.push({ name: x.name, works: x.works }); });
-    if (bannerTab >= tabs.length) bannerTab = 0;
-
-    bannerChips.textContent = '';
-    if (tabs.length > 1) {
-      tabs.forEach(function (t, i) {
-        var b = el('button', 'chip', t.name);
-        b.type = 'button';
-        b.setAttribute('aria-pressed', i === bannerTab ? 'true' : 'false');
-        b.addEventListener('click', function () { bannerTab = i; render(); });
-        bannerChips.appendChild(b);
-      });
-    }
-
-    bannerEl.textContent = '';
-    tabs[bannerTab].works.slice(0, BANNER_MAX).forEach(function (w) {
-      var b = el('div', 'be');
-      var node = makeNode(w);
-      b.appendChild(node);
-      b.addEventListener('click', function () {
-        if (w.kind === 'lottie' && node._anim) { node._anim.isPaused ? node._anim.play() : node._anim.pause(); }
-        else if (w.kind === 'video') { node.paused ? node.play() : node.pause(); }
-      });
-      bannerEl.appendChild(b);
-    });
+  function toggle(w, node) {
+    if (w.kind === 'lottie' && node._anim) { node._anim.isPaused ? node._anim.play() : node._anim.pause(); }
+    else if (w.kind === 'video') { node.paused ? node.play() : node.pause(); }
   }
 
   function buildWork(w) {
@@ -723,66 +684,70 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
     var media = el('div', 'media');
     var node = makeNode(w);
     media.appendChild(node);
-    media.addEventListener('click', function () {
-      if (w.kind === 'lottie' && node._anim) { node._anim.isPaused ? node._anim.play() : node._anim.pause(); }
-      else if (w.kind === 'video') { node.paused ? node.play() : node.pause(); }
-    });
+    media.addEventListener('click', function () { toggle(w, node); });
     fig.appendChild(media);
     fig.appendChild(el('figcaption', 'cap', w.title));
     return fig;
   }
-
   function buildGrid(list) {
     var grid = el('div', 'wgrid');
     list.forEach(function (w) { grid.appendChild(buildWork(w)); });
     return grid;
   }
+  function subHead(text, count) {
+    var sh = el('div', 'sub-head');
+    sh.appendChild(el('h4', null, text));
+    sh.appendChild(el('span', 'mono', String(count)));
+    return sh;
+  }
+
+  /* phone banner: the selected group, animations first, then vector */
+  function renderBanner(g) {
+    var list = g.works.filter(isAnim).concat(g.works.filter(function (w) { return !isAnim(w); }));
+    bannerEl.textContent = '';
+    list.slice(0, BANNER_MAX).forEach(function (w) {
+      var b = el('div', 'be');
+      var node = makeNode(w);
+      b.appendChild(node);
+      b.addEventListener('click', function () { toggle(w, node); });
+      bannerEl.appendChild(b);
+    });
+  }
 
   function renderFilters() {
     filtersEl.textContent = '';
     if (!groups.length) return;
-    ['Все'].concat(groups.map(function (g) { return g.name; })).forEach(function (name, i) {
-      var key = i === 0 ? 'all' : name;
-      var b = el('button', 'chip', name);
+    groups.forEach(function (g, i) {
+      var b = el('button', 'chip', g.name);
       b.type = 'button';
-      b.setAttribute('aria-pressed', active === key ? 'true' : 'false');
-      b.addEventListener('click', function () { active = key; render(); });
+      b.setAttribute('aria-pressed', i === active ? 'true' : 'false');
+      b.addEventListener('click', function () { active = i; render(); });
       filtersEl.appendChild(b);
     });
-    var bg = el('button', 'chip', 'Фон: ' + CANVAS[canvasIdx][0]);
-    bg.type = 'button';
-    bg.addEventListener('click', function () { canvasIdx = (canvasIdx + 1) % CANVAS.length; render(); });
-    filtersEl.appendChild(bg);
   }
 
   function render() {
     anims.forEach(function (a) { try { a.destroy(); } catch (e) {} });
     anims = [];
-    renderBanner();
     demoEl.hidden = groups.length > 0;
-    if (active !== 'all' && !groups.some(function (g) { return g.name === active; })) active = 'all';
-    worksEl.dataset.canvas = CANVAS[canvasIdx][1];
     worksEl.textContent = '';
     renderFilters();
-    groups.forEach(function (g) {
-      if (active !== 'all' && g.name !== active) return;
-      var sec = el('section', 'group');
-      sec.style.padding = '0';
-      var total = g.subs.reduce(function (n, x) { return n + x.works.length; }, g.works.length);
-      var head = el('div', 'group-head');
-      head.appendChild(el('h3', null, g.name));
-      head.appendChild(el('span', 'mono', String(total)));
-      sec.appendChild(head);
-      if (g.works.length) sec.appendChild(buildGrid(g.works));
-      g.subs.forEach(function (x) {
-        var sh = el('div', 'sub-head');
-        sh.appendChild(el('h4', null, x.name));
-        sh.appendChild(el('span', 'mono', String(x.works.length)));
-        sec.appendChild(sh);
-        sec.appendChild(buildGrid(x.works));
-      });
-      worksEl.appendChild(sec);
-    });
+    if (!groups.length) return;
+    if (active >= groups.length) active = 0;
+    var g = groups[active];
+    renderBanner(g);
+
+    var motion = g.works.filter(isAnim);
+    var vector = g.works.filter(function (w) { return !isAnim(w); });
+    var sec = el('section', 'group');
+    sec.style.padding = '0';
+    var head = el('div', 'group-head');
+    head.appendChild(el('h3', null, g.name));
+    head.appendChild(el('span', 'mono', String(g.works.length)));
+    sec.appendChild(head);
+    if (motion.length) { sec.appendChild(subHead('Анимации', motion.length)); sec.appendChild(buildGrid(motion)); }
+    if (vector.length) { sec.appendChild(subHead('Вектор', vector.length)); sec.appendChild(buildGrid(vector)); }
+    worksEl.appendChild(sec);
   }
 
   fetch('works.json', { cache: 'no-store' })
@@ -790,12 +755,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
     .catch(function () { return null; })
     .then(function (d) {
       if (d && Array.isArray(d.groups)) {
-        groups = d.groups.filter(function (g) {
-          if (!g) return false;
-          g.works = Array.isArray(g.works) ? g.works : [];
-          g.subs = (Array.isArray(g.subs) ? g.subs : []).filter(function (x) { return x && Array.isArray(x.works) && x.works.length; });
-          return g.works.length || g.subs.length;
-        });
+        groups = d.groups.filter(function (g) { return g && Array.isArray(g.works) && g.works.length; });
       }
       render();
     });
