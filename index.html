@@ -643,7 +643,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
       watch(node, function (n) { loadVideo(n, w.file); });
     } else {
       node = document.createElement('img');
-      node.alt = w.title; node.loading = 'lazy'; node.src = url(w.file);
+      node.alt = ''; node.loading = 'lazy'; node.src = url(w.file);
     }
     return node;
   }
