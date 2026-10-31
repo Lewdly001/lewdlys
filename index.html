@@ -226,7 +226,6 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
 .work .media { aspect-ratio: 1; padding: 10%; display: grid; cursor: pointer; }
 .work .media > * { width: 100%; height: 100%; min-width: 0; object-fit: contain; display: block; }
 .work .lot svg { width: 100%; height: 100%; display: block; }
-.work .cap, .work .cap-input { position: absolute; left: 12px; bottom: 12px; max-width: calc(100% - 24px); padding: 4px 12px; border-radius: 999px; background: var(--fg); color: var(--bg); font-family: var(--font-mono); font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border: 0; }
 .empty-group { padding: 28px; border: 2px dashed var(--fg); border-radius: 28px; text-align: center; color: var(--muted); }
 
 
@@ -237,7 +236,6 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
   .sub-head { margin: 30px 0 12px; padding-top: 12px; border-top: 2px solid var(--fg); }
   .sub-head h4 { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.04em; }
   .work .media { padding: 8%; }
-  .work .cap { left: 6px; bottom: 6px; max-width: calc(100% - 12px); padding: 2px 7px; font-size: .56rem; letter-spacing: .03em; }
 }
 .sub-head { display: flex; align-items: baseline; gap: 12px; margin: 28px 0 14px; }
 .sub-head h4 { margin: 0; font-family: var(--font-display); font-weight: 500; font-size: clamp(1.05rem, 2.4vw, 1.35rem); letter-spacing: -0.03em; text-transform: uppercase; }
@@ -661,7 +659,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
     media.appendChild(node);
     media.addEventListener('click', function () { toggle(w, node); });
     fig.appendChild(media);
-    fig.appendChild(el('figcaption', 'cap', w.title));
+    fig.setAttribute('aria-label', w.title);
     return fig;
   }
   function buildGrid(list) {
