@@ -138,7 +138,7 @@ h2 { font-family: var(--font-display); font-weight: 800; font-size: clamp(2rem, 
 /* price */
 .prices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
 .card { display: flex; flex-direction: column; gap: 20px; min-width: 0; padding: 28px; border: 2px solid var(--fg); border-radius: 36px; }
-.card .art { width: 132px; height: 132px; }
+.card .art { width: 132px; height: 132px; overflow: visible; }
 .card h3 { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.8rem, 4.4vw, 2.6rem); line-height: 1; letter-spacing: -0.05em; text-transform: uppercase; }
 .card .tags { margin-top: 0; }
 .card .tag { border-color: currentColor; }
@@ -225,7 +225,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
 @keyframes wob { 0%, 100% { transform: rotate(-14deg) scale(1); } 50% { transform: rotate(14deg) scale(1.1); } }
 @keyframes tw { 0%, 100% { transform: scale(.3); opacity: .3; } 50% { transform: scale(1); opacity: 1; } }
 @keyframes talk { 0%, 100% { transform: scaleY(1); } 25% { transform: scaleY(1.7); } 50% { transform: scaleY(.7); } 75% { transform: scaleY(1.4); } }
-@keyframes draw { 0% { stroke-dashoffset: 260; } 60%, 100% { stroke-dashoffset: 0; } }
+@keyframes draw { 0% { stroke-dashoffset: 260; } 40%, 70% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -260; } }
 @keyframes steam { 0% { stroke-dashoffset: 40; opacity: 0; } 40% { opacity: 1; } 100% { stroke-dashoffset: -40; opacity: 0; } }
 @keyframes flash { 0%, 100% { opacity: 1; } 50% { opacity: .15; } }
 @keyframes cloud { from { transform: translateX(-80px); } to { transform: translateX(460px); } }
@@ -396,7 +396,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
           <svg class="art" viewBox="0 0 132 132" role="img" aria-label="Рисование векторной кривой" data-i18n-aria="a_vector">
             <path class="o" d="M18 100 L18 100 M114 100 L114 100"/>
             <path class="s" d="M20 98 L44 30 M112 98 L88 30" style="stroke-width:2;stroke-dasharray:3 6"/>
-            <path class="s draw" d="M20 98 C44 18 88 18 112 98"/>
+            <path class="s draw" pathLength="260" d="M20 98 C44 18 88 18 112 98"/>
             <rect class="b" x="12" y="90" width="16" height="16" rx="2"/>
             <rect class="b" x="104" y="90" width="16" height="16" rx="2"/>
             <circle class="b float" cx="44" cy="30" r="7"/>
