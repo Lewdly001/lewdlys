@@ -144,6 +144,21 @@
        "kind": "img"
       }
      ]
+    },
+    {
+     "name": "Lumi",
+     "works": [
+      {
+       "title": "lumi LWD AgADPKUAAi3UcEs svg 000",
+       "file": "works/vector/Lumi/1_lumi_LWD_AgADPKUAAi3UcEs_svg_000.svg",
+       "kind": "img"
+      },
+      {
+       "title": "AgADiaMAAvJgUEs svg 046",
+       "file": "works/vector/Lumi/AgADiaMAAvJgUEs_svg_046.svg",
+       "kind": "img"
+      }
+     ]
     }
    ]
   }
