@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <style>:root{color-scheme:light}body{margin:0}img,video{max-width:100%}[hidden]{display:none!important}</style>
 <title>Lewdly</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="assets/favicon-192.png" type="image/png" sizes="192x192">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <meta name="theme-color" content="#FFFFFF">
 <script>(function(){try{if(localStorage.getItem('lw-theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content','#0A0A0A');}}catch(e){}})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -64,7 +69,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--fg); outline-of
 /* header */
 .top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 20px; }
 .brand { font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; letter-spacing: -0.03em; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
-.brand .star { width: .9em; height: .9em; }
+.brand .logo { width: 2.75em; height: 1.85em; flex: none; fill: var(--fg); stroke: var(--bg); stroke-width: 5px; stroke-linejoin: miter; }
 .nav { display: flex; gap: 22px; }
 .nav a { text-decoration: none; }
 .nav a:hover { text-decoration: underline; text-underline-offset: 5px; }
@@ -297,8 +302,9 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
 </head>
 <body>
 <div class="wrap">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="logo-mark" viewBox="34.76 107.23 449.64 302.61"><path d="M142.67,312.73l24.78-.81-1.62-12.39-66.27-3.5.27-11.31,33.68-1.35-2.69-14.82-74.35,1.08-.54-12.12,101.03-2.42-1.62-26.67,37.72.54-3.77-16.97-23.71,2.42.81-22.09,25.59-1.62s-8.08-4.58-9.16-5.12-43.91,0-43.91,0l2.16-12.39,32.06-2.42-5.66-8.89-65.46,3.5-.81-13.74,74.89,1.89v-6.74h15.89l-2.42-10.51-42.03,1.62-.81-9.7h35.56l2.42-16.97,154.91.27-1.35,21.28,35.92-3.59-1.53,14.55-75.7-5.66-.81,7,24.52,1.89.54,14.28-56.04-1.35.27,7.54,23.17.54-1.08,20.21-9.7-2.16-.27,11.58-.27,22.63-12.12.27-.27,12.66,44.18-4.04.27,11.58,30.17,1.62.27-9.43h12.66l.81,24.78-134.16-1.62-1.62,12.93,43.1-3.23-2.6,23.98,15.36-.27,1.89,11.58-23.71-1.35.27,12.39-8.62.54-.81,14.82v9.7l113.15.81-3.5-9.43h12.12l-1.08-8.35-54.96,1.62.27-8.35,43.1,1.08v-9.16l72.65-.18-.54,14.55,32.33.81,1.35,17.78h-55.77l.54,12.39,8.35,1.08-.27,8.08,13.47-.54v7.99s56.84-1.35,56.84-1.35l-1.08,13.2-126.89.81.27,11.31,40.41-1.62.54,16.16-274.97-2.42,1.8-16.34-40.41,1.08,1.62-6.82-22.45.54-.72-7.36-19.76-1.08.18-9.52,120.69,2.33-1.08-9.34-26.4-.9-.72-8.08-29.81-.36,1.26-9.88,34.66,2.33.9-20.65,4.22-6.65Z" stroke-miterlimit="10"/></symbol></svg>
   <header class="top">
-    <a class="brand" href="#top"><span class="star"></span>Lewdly</a>
+    <a class="brand" href="#top" aria-label="Lewdly"><svg class="logo" aria-hidden="true"><use href="#logo-mark"/></svg>Lewdly</a>
     <div class="top-right">
       <nav class="nav mono" aria-label="Разделы" data-i18n-aria="nav_aria">
         <a href="#price" data-i18n="price_h">Прайс</a>
