@@ -263,7 +263,6 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
 @media (max-width: 860px) {
   .hero { grid-template-columns: 1fr; }
   .stage { order: -1; max-width: 300px; margin-inline: 0; }
-  .prices { grid-template-columns: 1fr; }
   .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .steps { grid-template-columns: repeat(2, 1fr); row-gap: 32px; }
   .steps::before { display: none; }
@@ -274,7 +273,17 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
   .grid { grid-template-columns: 1fr; }
   .tile.wide { grid-column: auto; }
   .big-link { padding: 22px 20px; border-radius: 28px; }
-  .card { padding: 22px; border-radius: 28px; }
+  /* price: two cards side by side on phones, compact so both fit on one screen */
+  .prices { gap: 10px; }
+  .card { padding: 14px; border-radius: 22px; gap: 10px; }
+  .card .art { width: 60px; height: 60px; }
+  .card h3 { font-size: 1.05rem; }
+  .card .tags { gap: 5px; }
+  .card .tag { padding: 3px 9px; font-size: .68rem; border-width: 1.5px; }
+  .price { flex-wrap: wrap; gap: 2px 8px; }
+  .price small { font-size: .7rem; }
+  .price b { font-size: 1.55rem; }
+  .card .btn { align-self: stretch; min-height: 44px; padding: 8px 12px; gap: 8px; font-size: .88rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
