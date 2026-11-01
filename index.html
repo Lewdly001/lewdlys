@@ -714,6 +714,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
 
   var cats = [], filter = 'all', canvas = 0, anims = [], io = null;
   var CANVAS = ['gray', 'white', 'black'], ready = false;
+  var played = {}, gio = null;   /* subgroups that already had their one-time playback */
   function catName(c) { return LW.has('cat_' + c.id) ? LW.t('cat_' + c.id) : c.name; }
   var worksEl = $('works'), filtersEl = $('filters'), demoEl = $('demo');
 
@@ -747,14 +748,80 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
     if (!window.lottie) { node.textContent = 'Lottie'; return; }
     fetch(url(path)).then(function (r) { if (!r.ok) throw new Error('x'); return r.arrayBuffer(); }).then(toJSON).then(function (data) {
       if (!node.isConnected) return;
-      var a = lottie.loadAnimation({ container: node, renderer: 'svg', loop: true, autoplay: !reduce, animationData: data });
+      var a = lottie.loadAnimation({ container: node, renderer: 'svg', loop: false, autoplay: false, animationData: data });
+      a.addEventListener('complete', function () { node._playing = false; node._ended = true; });
       node._anim = a;
       anims.push(a);
+      node._ready = true;
+      settle(node);
     }).catch(function () { node.textContent = '—'; });
   }
   function loadVideo(v, path) {
     v.src = url(path);
-    if (!reduce) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+    v.addEventListener('ended', function () { v._playing = false; v._ended = true; });
+    v._ready = true;
+    settle(v);
+  }
+
+  /* animations are off by default: each subgroup plays once when it is scrolled to, then rests.
+     A click turns a single emoji on (loops) and a second click pauses it. */
+  function startOnce(node) {
+    node._wantOnce = false;
+    node._playing = true; node._ended = false;
+    if (node._anim) { node._anim.loop = false; node._anim.goToAndPlay(0, true); }
+    else if (node.tagName === 'VIDEO') {
+      node.loop = false; node.currentTime = 0;
+      var p = node.play(); if (p && p.catch) p.catch(function () {});
+    }
+  }
+  function showLast(node) {
+    if (node._anim) { node._anim.goToAndStop(Math.max(0, node._anim.totalFrames - 1), true); }
+    else if (node.tagName === 'VIDEO') {
+      var seek = function () { try { node.currentTime = Math.max(0, (node.duration || 0) - 0.04); } catch (e) {} };
+      if (node.readyState >= 1) seek(); else node.addEventListener('loadedmetadata', seek, { once: true });
+    }
+  }
+  function settle(node) {
+    if (node._wantOnce) startOnce(node);
+    else if (node._rest) showLast(node);
+  }
+  function toggle(node) {
+    if (!node._ready) return;
+    node._wantOnce = false;
+    if (node._anim) {
+      var a = node._anim;
+      if (node._playing) { a.pause(); node._playing = false; }
+      else {
+        a.loop = true; node._playing = true;
+        if (node._ended) { node._ended = false; a.goToAndPlay(0, true); } else { a.play(); }
+      }
+    } else if (node.tagName === 'VIDEO') {
+      if (!node.paused && !node.ended) { node.pause(); node._playing = false; }
+      else {
+        node.loop = true; node._playing = true;
+        if (node.ended) node.currentTime = 0;
+        var p = node.play(); if (p && p.catch) p.catch(function () {});
+      }
+    }
+  }
+
+  /* when a subgroup is scrolled to for the first time, play all of its animations once */
+  function watchGrid(grid, key, nodes) {
+    if (!nodes.length) return;
+    if (played[key]) { nodes.forEach(function (n) { n._rest = true; }); return; }
+    if (reduce || !('IntersectionObserver' in window)) return;
+    if (!gio) {
+      gio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { gio.unobserve(e.target); if (e.target._fire) e.target._fire(); }
+        });
+      }, { rootMargin: '0px 0px -20% 0px' });
+    }
+    grid._fire = function () {
+      played[key] = true;
+      nodes.forEach(function (n) { n._wantOnce = true; if (n._ready) startOnce(n); });
+    };
+    gio.observe(grid);
   }
 
   function makeNode(w) {
@@ -764,7 +831,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
       watch(node, function (n) { loadLottie(n, w.file); });
     } else if (w.kind === 'video') {
       node = document.createElement('video');
-      node.muted = true; node.loop = true; node.playsInline = true; node.preload = 'metadata';
+      node.muted = true; node.loop = false; node.playsInline = true; node.preload = 'metadata';
       node.setAttribute('muted', ''); node.setAttribute('aria-label', w.title);
       watch(node, function (n) { loadVideo(n, w.file); });
     } else {
@@ -773,24 +840,21 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
     }
     return node;
   }
-  function toggle(w, node) {
-    if (w.kind === 'lottie' && node._anim) { node._anim.isPaused ? node._anim.play() : node._anim.pause(); }
-    else if (w.kind === 'video') { node.paused ? node.play() : node.pause(); }
-  }
-
-  function buildWork(w) {
+  function buildWork(w, nodes) {
     var fig = el('figure', 'work');
     var media = el('div', 'media');
     var node = makeNode(w);
+    if (w.kind === 'lottie' || w.kind === 'video') nodes.push(node);
     media.appendChild(node);
-    media.addEventListener('click', function () { toggle(w, node); });
+    media.addEventListener('click', function () { toggle(node); });
     fig.appendChild(media);
     fig.setAttribute('aria-label', w.title);
     return fig;
   }
-  function buildGrid(list) {
-    var grid = el('div', 'wgrid');
-    list.forEach(function (w) { grid.appendChild(buildWork(w)); });
+  function buildGrid(list, key) {
+    var grid = el('div', 'wgrid'), nodes = [];
+    list.forEach(function (w) { grid.appendChild(buildWork(w, nodes)); });
+    watchGrid(grid, key, nodes);
     return grid;
   }
   function subHead(text, count) {
@@ -829,7 +893,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
     sec.appendChild(head);
     c.groups.forEach(function (g) {
       if (g.name) sec.appendChild(subHead(g.name, g.works.length));
-      sec.appendChild(buildGrid(g.works));
+      sec.appendChild(buildGrid(g.works, c.id + '/' + g.name));
     });
     return sec;
   }
@@ -837,6 +901,8 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
   function render() {
     anims.forEach(function (a) { try { a.destroy(); } catch (e) {} });
     anims = [];
+    if (gio) { gio.disconnect(); gio = null; }
+    if (io) { io.disconnect(); io = null; }
     demoEl.hidden = cats.length > 0;
     worksEl.textContent = '';
     worksEl.setAttribute('data-canvas', CANVAS[canvas]);

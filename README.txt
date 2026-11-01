@@ -17,6 +17,11 @@ STRUCTURE   works/<category>/<group>/<file>
   File name = work title. Order = file name order (01_, 02_ ...).
   Files: .tgs .json .webm .mp4 .svg .png .webp .gif .jpg
 
+PLAYBACK
+  Animations are off by default. When a group is scrolled to for the first time
+  all its animations play once and stop. They do not restart on scrolling back.
+  Click an emoji to turn it on (loops), click again to pause.
+
 AFTER ADDING FILES
   python build.py
   git add -A && git commit -m works && git push
