@@ -260,6 +260,10 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
 .sub-head h4 { margin: 0; font-family: var(--font-display); font-weight: 500; font-size: clamp(1.05rem, 2.4vw, 1.35rem); letter-spacing: -0.03em; text-transform: uppercase; }
 .sub-head h4::before { content: "/ "; color: var(--muted); }
 
+@media (min-width: 861px) {
+  /* two-column hero: keep the long word inside its column */
+  h1 { font-size: clamp(2.3rem, 6.6vw, 4.8rem); }
+}
 @media (max-width: 860px) {
   .hero { grid-template-columns: 1fr; }
   .stage { order: -1; max-width: 300px; margin-inline: 0; }
@@ -320,7 +324,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
     <div class="hero">
       <div>
         <h1>
-          <span><span class="t" data-i18n="h1a">Двигаю</span>
+          <span><span class="t" data-i18n="h1a">Анимирую</span>
             <svg viewBox="0 0 40 40" aria-hidden="true"><path class="f spin" d="M20 0 L25 15 L40 20 L25 25 L20 40 L15 25 L0 20 L15 15Z"/></svg>
           </span>
           <span data-i18n="h1b">и рисую</span>
@@ -585,7 +589,7 @@ svg .o { fill: none; stroke: var(--ink, var(--fg)); stroke-width: 2; stroke-dash
     ru: {
       nav_aria: 'Разделы', lang_aria: 'Язык', theme_dark: 'Включить тёмную тему', theme_light: 'Включить светлую тему',
       price_h: 'Прайс', work_h: 'Работы', contacts_h: 'Контакты',
-      h1a: 'Двигаю', h1b: 'и рисую',
+      h1a: 'Анимирую', h1b: 'и рисую',
       cat_emoji: 'Эмодзи и стикеры', cat_vector: 'Вектор',
       cta_dm: 'Написать в личные сообщения', channel: 'Канал', dm: 'Личные сообщения',
       a_stage: 'Персонаж, который следит за курсором',
