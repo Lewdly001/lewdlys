@@ -2,19 +2,18 @@
 """Собирает works.json из папки works/.
 
 works/
-  emoji/               категория (первая папка) -> «Эмодзи и стикеры»
-    T2X2/              подгруппа (вторая папка) -> «/ T2X2»
-      heart.tgs        .tgs .json .webm .mp4 .svg .png .webp .gif .jpg
-    YAMAKASI/
-    TRUDI/
-  vector/              категория -> «Вектор»
-    T2X2/
-    YAMAKASI/
+  T2X2/            группа (проект или заказчик)
+    heart.tgs      анимации: .tgs .json .webm .mp4
+    smile.webm
+    logo.svg       вектор: .svg
+  YAMAKASI/
+  TRUDI/
 
-Категория и подгруппа берутся из того, в какой папке лежит файл: emoji/T2X2/heart.tgs.
-Цифры в начале ("1_T2X2") задают порядок и не показываются.
+Одна папка = одна группа. Внутри группы сайт сам делит работы на «Анимации» и «Вектор»
+по типу файла, раскладывать по папкам не нужно. Вложенные папки читаются тоже.
+Название группы на сайте = имя папки как есть (T2X2 -> T2X2).
+Цифры в начале ("1_T2X2") задают порядок групп и не показываются.
 Имя файла = название работы. Файлы идут по порядку имён.
-Вложенные папки внутри подгруппы читаются тоже.
 
 Запуск:  python build.py
 """
@@ -22,13 +21,7 @@ import json
 import os
 import re
 
-# красивые названия категорий (ключ = имя папки в нижнем регистре).
-# Любая другая папка первого уровня тоже станет категорией со своим именем.
-CATEGORY_NAMES = {
-    "emoji": "Эмодзи и стикеры",
-    "vector": "Вектор",
-}
-# необязательно: красивое название подгруппы вместо имени папки (ключ в нижнем регистре)
+# необязательно: красивое название вместо имени папки (ключ в нижнем регистре)
 NAMES = {
     # "yamakasi": "Ямакаси",
 }
@@ -53,19 +46,9 @@ def clean(name):
     return re.sub(r"^\d+[\s._-]+", "", name).replace("_", " ").strip()
 
 
-def sub_label(folder):
+def label(folder):
     c = clean(folder)
     return NAMES.get(c.lower(), c or folder)
-
-
-def cat_label(folder):
-    c = clean(folder)
-    return CATEGORY_NAMES.get(c.lower(), c or folder)
-
-
-def dirs(path):
-    return [d for d in sorted(os.listdir(path), key=natural)
-            if not d.startswith(".") and os.path.isdir(os.path.join(path, d))]
 
 
 def scan(path, rel):
@@ -89,43 +72,26 @@ def scan(path, rel):
 def main():
     if not os.path.isdir(WORKS):
         os.makedirs(WORKS)
-    categories = []
-    for c in dirs(WORKS):
-        cpath = os.path.join(WORKS, c)
-        crel = "works/" + c
-        groups = []
-        loose = scan_loose(cpath, crel)  # файлы прямо в категории, без подгруппы
-        if loose:
-            groups.append({"name": "", "works": loose})
-        for g in dirs(cpath):
-            items = scan(os.path.join(cpath, g), crel + "/" + g)
-            if items:
-                groups.append({"name": sub_label(g), "works": items})
-        if groups:
-            categories.append({"id": clean(c).lower(), "name": cat_label(c), "groups": groups})
+    groups = []
+    for g in sorted(os.listdir(WORKS), key=natural):
+        gpath = os.path.join(WORKS, g)
+        if g.startswith(".") or not os.path.isdir(gpath):
+            continue
+        items = scan(gpath, "works/" + g)
+        if items:
+            groups.append({"id": clean(g).lower(), "name": label(g), "works": items})
 
     with open(OUT, "w", encoding="utf-8") as fh:
-        json.dump({"categories": categories}, fh, ensure_ascii=False, indent=1)
+        json.dump({"groups": groups}, fh, ensure_ascii=False, indent=1)
 
     print("works.json готов")
     total = 0
-    for c in categories:
-        print(c["name"])
-        for g in c["groups"]:
-            total += len(g["works"])
-            print("  %s: %d" % (g["name"] or "(без подгруппы)", len(g["works"])))
+    for g in groups:
+        motion = sum(1 for w in g["works"] if w["kind"] in ("lottie", "video"))
+        vector = len(g["works"]) - motion
+        total += len(g["works"])
+        print("  %s: анимации %d, вектор %d" % (g["name"], motion, vector))
     print("Всего работ: %d" % total)
-
-
-def scan_loose(path, rel):
-    items = []
-    for f in sorted(os.listdir(path), key=natural):
-        stem, ext = os.path.splitext(f)
-        kind = KINDS.get(ext.lower())
-        if f.startswith(".") or not kind or not os.path.isfile(os.path.join(path, f)):
-            continue
-        items.append({"title": clean(stem) or stem, "file": rel + "/" + f, "kind": kind})
-    return items
 
 
 if __name__ == "__main__":

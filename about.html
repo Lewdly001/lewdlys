@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light}body{margin:0}img,video{max-width:100%}[hidden]{display:none!important}</style>
+<title>Обо мне — Lewdly</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;500;800&family=Onest:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+/* about page */
+.about { display: grid; grid-template-columns: 1.15fr .85fr; gap: 24px; align-items: center; padding-block: 24px 56px; }
+.about > * { min-width: 0; }
+.lead { margin-top: 28px; max-width: 34ch; font-family: var(--font-display); font-weight: 300; font-size: clamp(1.2rem, 3vw, 1.7rem); line-height: 1.25; letter-spacing: -0.03em; }
+.lead b { font-weight: 800; }
+
+.who { display: grid; gap: 14px; }
+.who-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 24px 32px; border: 2px solid var(--fg); border-radius: 36px; min-width: 0; }
+.who-row strong { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.7rem, 6vw, 3.6rem); letter-spacing: -0.05em; line-height: 1.05; text-transform: uppercase; overflow-wrap: anywhere; }
+.who-row .star { width: clamp(1.2rem, 3.4vw, 2rem); height: clamp(1.2rem, 3.4vw, 2rem); flex: none; }
+
+.skills { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.badge { display: grid; place-items: center; width: 112px; height: 112px; border: 2px solid currentColor; border-radius: 32px; font-family: var(--font-display); font-weight: 800; font-size: 2.6rem; letter-spacing: -0.06em; transition: transform .2s ease; }
+.card:hover .badge { transform: rotate(-6deg) scale(1.06); }
+
+@media (max-width: 860px) {
+  .about { grid-template-columns: 1fr; }
+  .skills { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) {
+  .who-row { padding: 20px; border-radius: 28px; }
+  .badge { width: 88px; height: 88px; border-radius: 26px; font-size: 2.1rem; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="index.html"><span class="star"></span>Lewdly</a>
+    <nav class="nav mono" aria-label="Разделы">
+      <a href="index.html" class="page">Главная</a>
+      <a href="index.html#price">Прайс</a>
+      <a href="index.html#portfolio">Работы</a>
+      <a href="index.html#contacts">Контакты</a>
+    </nav>
+  </header>
+</div>
+
+<main id="top">
+  <div class="wrap">
+    <div class="about">
+      <div>
+        <h1>
+          <span>Обо
+            <svg viewBox="0 0 40 40" aria-hidden="true"><path class="f spin" d="M20 0 L25 15 L40 20 L25 25 L20 40 L15 25 L0 20 L15 15Z"/></svg>
+          </span>
+          <span>мне</span>
+        </h1>
+        <p class="lead">Я <b>моушн-дизайнер</b> и <b>векторный иллюстратор</b>.</p>
+        <div class="tags">
+          <span class="tag on">Моушн-дизайн</span>
+          <span class="tag">Векторная иллюстрация</span>
+        </div>
+        <div class="cta">
+          <a class="btn solid" href="https://t.me/lewdlys" target="_blank" rel="noopener">Написать в ЛС <span class="arrow">↗</span></a>
+          <a class="btn" href="index.html#portfolio">Смотреть работы <span class="arrow">↗</span></a>
+        </div>
+      </div>
+
+      <div class="stage" id="stage">
+        <svg viewBox="0 0 400 400" role="img" aria-label="Персонаж, который следит за курсором">
+          <circle class="o spin" cx="200" cy="200" r="190"/>
+          <g class="spin rev"><g transform="translate(200 10)"><path class="f" d="M0 -14 L4 -4 L14 0 L4 4 L0 14 L-4 4 L-14 0 L-4 -4Z"/></g></g>
+          <ellipse class="f shadow" cx="200" cy="356" rx="86" ry="10" opacity=".3"/>
+          <g class="bounce">
+            <path class="b" d="M92 190 C92 108 140 62 200 62 C260 62 308 108 308 190 V318 L276 296 L246 322 L216 296 L184 322 L154 296 L124 322 L92 298 Z"/>
+            <g id="eyeL"><circle class="b" cx="156" cy="170" r="30"/><circle class="f pupil" cx="156" cy="170" r="13"/></g>
+            <g id="eyeR"><circle class="b" cx="244" cy="170" r="30"/><circle class="f pupil" cx="244" cy="170" r="13"/></g>
+            <ellipse class="f talk" cx="200" cy="244" rx="26" ry="12"/>
+            <circle class="f" cx="116" cy="216" r="7" opacity=".25"/>
+            <circle class="f" cx="284" cy="216" r="7" opacity=".25"/>
+          </g>
+          <g transform="translate(330 84)"><path class="f tw" d="M0 -18 L5 -5 L18 0 L5 5 L0 18 L-5 5 L-18 0 L-5 -5Z"/></g>
+          <g transform="translate(60 120)"><path class="f tw d" d="M0 -12 L3 -3 L12 0 L3 3 L0 12 L-3 3 L-12 0 L-3 -3Z"/></g>
+          <g transform="translate(340 300)"><path class="b pulse" d="M0 22 C-30 4 -32 -20 -14 -24 C-6 -26 0 -18 0 -14 C0 -18 6 -26 14 -24 C32 -20 30 4 0 22Z" transform="scale(.8)"/></g>
+          <circle class="f float" cx="56" cy="290" r="9"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="marquee dark" aria-hidden="true">
+    <div class="track">
+      <div><span>Motion</span><i class="star"></i><span>Vector</span><i class="star"></i><span>Motion</span><i class="star"></i><span>Vector</span><i class="star"></i><span>Motion</span><i class="star"></i><span>Vector</span><i class="star"></i></div>
+      <div><span>Motion</span><i class="star"></i><span>Vector</span><i class="star"></i><span>Motion</span><i class="star"></i><span>Vector</span><i class="star"></i><span>Motion</span><i class="star"></i><span>Vector</span><i class="star"></i></div>
+    </div>
+  </div>
+
+  <section id="clients">
+    <div class="wrap">
+      <div class="sec-head"><h2>Сотрудничал с</h2></div>
+      <div class="who">
+        <div class="who-row swap"><strong>Ямакаси</strong><i class="star"></i></div>
+        <div class="who-row swap"><strong>T2X2</strong><i class="star"></i></div>
+        <div class="who-row swap"><strong>Кортизол</strong><i class="star"></i></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <div class="sec-head"><h2>Навыки</h2></div>
+      <div class="skills">
+        <article class="card swap">
+          <div class="badge" aria-hidden="true">Ae</div>
+          <h3>After Effects</h3>
+          <div class="tags"><span class="tag">Моушн-дизайн</span></div>
+        </article>
+        <article class="card swap">
+          <div class="badge" aria-hidden="true">Ai</div>
+          <h3>Illustrator</h3>
+          <div class="tags"><span class="tag">Векторная иллюстрация</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacts">
+    <div class="wrap">
+      <div class="sec-head"><h2>Контакты</h2></div>
+      <div class="links">
+        <a class="big-link swap" href="https://t.me/lewdlys" target="_blank" rel="noopener">
+          <div><span class="mono">ЛС</span><strong>@lewdlys</strong></div>
+          <span class="arrow">↗</span>
+        </a>
+        <a class="big-link swap" href="https://t.me/DS_lewdly" target="_blank" rel="noopener">
+          <div><span class="mono">Канал</span><strong>@DS_lewdly</strong></div>
+          <span class="arrow">↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="wrap">
+  <footer class="mono"><span>© 2026 Lewdly</span><span>Motion / Vector</span></footer>
+</div>
+
+<script>
+(function () {
+  var eyes = [document.getElementById('eyeL'), document.getElementById('eyeR')];
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function look(x, y) {
+    eyes.forEach(function (eye) {
+      var pupil = eye.querySelector('.pupil');
+      var box = eye.getBoundingClientRect();
+      var cx = box.left + box.width / 2;
+      var cy = box.top + box.height / 2;
+      var dx = x - cx, dy = y - cy;
+      var d = Math.sqrt(dx * dx + dy * dy) || 1;
+      var k = Math.min(1, d / 160) * 13;
+      pupil.setAttribute('transform', 'translate(' + (dx / d * k).toFixed(1) + ' ' + (dy / d * k).toFixed(1) + ')');
+    });
+  }
+  if (!reduce) window.addEventListener('pointermove', function (e) { look(e.clientX, e.clientY); });
+})();
+</script>
+</body>
+</html>

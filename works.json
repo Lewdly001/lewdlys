@@ -1,164 +1,129 @@
 {
- "categories": [
+ "groups": [
   {
    "id": "emoji",
-   "name": "Эмодзи и стикеры",
-   "groups": [
+   "name": "emoji",
+   "works": [
     {
-     "name": "YAMAKASI",
-     "works": [
-      {
-       "title": "AgADBqEAAsoMSEs",
-       "file": "works/emoji/1_YAMAKASI/AgADBqEAAsoMSEs.json",
-       "kind": "lottie"
-      },
-      {
-       "title": "AgADPqMAAkMBQUs",
-       "file": "works/emoji/1_YAMAKASI/AgADPqMAAkMBQUs.json",
-       "kind": "lottie"
-      },
-      {
-       "title": "AgADsJ8AAn75QUs",
-       "file": "works/emoji/1_YAMAKASI/AgADsJ8AAn75QUs.json",
-       "kind": "lottie"
-      }
-     ]
+     "title": "AgADBqEAAsoMSEs",
+     "file": "works/emoji/1_YAMAKASI/AgADBqEAAsoMSEs.json",
+     "kind": "lottie"
     },
     {
-     "name": "T2X2",
-     "works": [
-      {
-       "title": "AgADLJ4AAo9-mUo",
-       "file": "works/emoji/2_T2X2/2_AgADLJ4AAo9-mUo.json",
-       "kind": "lottie"
-      },
-      {
-       "title": "AgADcq0AAmYNmEo",
-       "file": "works/emoji/2_T2X2/AgADcq0AAmYNmEo.json",
-       "kind": "lottie"
-      },
-      {
-       "title": "AgADdKoAAk3BmEo",
-       "file": "works/emoji/2_T2X2/AgADdKoAAk3BmEo.json",
-       "kind": "lottie"
-      },
-      {
-       "title": "AgADMrIAAv4FmEo",
-       "file": "works/emoji/2_T2X2/AgADMrIAAv4FmEo.json",
-       "kind": "lottie"
-      },
-      {
-       "title": "AgADoq0AAs 8mUo",
-       "file": "works/emoji/2_T2X2/AgADoq0AAs_8mUo.json",
-       "kind": "lottie"
-      },
-      {
-       "title": "AgADuKYAAqzjmUo",
-       "file": "works/emoji/2_T2X2/AgADuKYAAqzjmUo.json",
-       "kind": "lottie"
-      },
-      {
-       "title": "AgADz6IAAgLkmUo",
-       "file": "works/emoji/2_T2X2/AgADz6IAAgLkmUo.json",
-       "kind": "lottie"
-      }
-     ]
+     "title": "AgADPqMAAkMBQUs",
+     "file": "works/emoji/1_YAMAKASI/AgADPqMAAkMBQUs.json",
+     "kind": "lottie"
     },
     {
-     "name": "KORTIZOL",
-     "works": [
-      {
-       "title": "AgAD-asAAoLd-Eo",
-       "file": "works/emoji/3_KORTIZOL/AgAD-asAAoLd-Eo.json",
-       "kind": "lottie"
-      },
-      {
-       "title": "AgADGbMAAm4L-Eo",
-       "file": "works/emoji/3_KORTIZOL/AgADGbMAAm4L-Eo.json",
-       "kind": "lottie"
-      },
-      {
-       "title": "AgADO60AArTyAAFL",
-       "file": "works/emoji/3_KORTIZOL/AgADO60AArTyAAFL.json",
-       "kind": "lottie"
-      }
-     ]
+     "title": "AgADsJ8AAn75QUs",
+     "file": "works/emoji/1_YAMAKASI/AgADsJ8AAn75QUs.json",
+     "kind": "lottie"
     },
     {
-     "name": "SKVRT",
-     "works": [
-      {
-       "title": "AgADNJoAAmW YUs",
-       "file": "works/emoji/4_SKVRT/1_AgADNJoAAmW_YUs.json",
-       "kind": "lottie"
-      },
-      {
-       "title": "AgADh58AAg5DYUs",
-       "file": "works/emoji/4_SKVRT/AgADh58AAg5DYUs.json",
-       "kind": "lottie"
-      },
-      {
-       "title": "AgADIqYAAgSpYEs",
-       "file": "works/emoji/4_SKVRT/AgADIqYAAgSpYEs.json",
-       "kind": "lottie"
-      },
-      {
-       "title": "AgADvpkAAmVdYUs",
-       "file": "works/emoji/4_SKVRT/AgADvpkAAmVdYUs.json",
-       "kind": "lottie"
-      },
-      {
-       "title": "AgADvqAAAjZcYEs",
-       "file": "works/emoji/4_SKVRT/AgADvqAAAjZcYEs.json",
-       "kind": "lottie"
-      }
-     ]
+     "title": "AgADLJ4AAo9-mUo",
+     "file": "works/emoji/2_T2X2/2_AgADLJ4AAo9-mUo.json",
+     "kind": "lottie"
     },
     {
-     "name": "TRUDI",
-     "works": [
-      {
-       "title": "AgADYq4AAvF4eUk",
-       "file": "works/emoji/5_TRUDI/AgADYq4AAvF4eUk.json",
-       "kind": "lottie"
-      }
-     ]
+     "title": "AgADcq0AAmYNmEo",
+     "file": "works/emoji/2_T2X2/AgADcq0AAmYNmEo.json",
+     "kind": "lottie"
+    },
+    {
+     "title": "AgADdKoAAk3BmEo",
+     "file": "works/emoji/2_T2X2/AgADdKoAAk3BmEo.json",
+     "kind": "lottie"
+    },
+    {
+     "title": "AgADMrIAAv4FmEo",
+     "file": "works/emoji/2_T2X2/AgADMrIAAv4FmEo.json",
+     "kind": "lottie"
+    },
+    {
+     "title": "AgADoq0AAs 8mUo",
+     "file": "works/emoji/2_T2X2/AgADoq0AAs_8mUo.json",
+     "kind": "lottie"
+    },
+    {
+     "title": "AgADuKYAAqzjmUo",
+     "file": "works/emoji/2_T2X2/AgADuKYAAqzjmUo.json",
+     "kind": "lottie"
+    },
+    {
+     "title": "AgADz6IAAgLkmUo",
+     "file": "works/emoji/2_T2X2/AgADz6IAAgLkmUo.json",
+     "kind": "lottie"
+    },
+    {
+     "title": "AgAD-asAAoLd-Eo",
+     "file": "works/emoji/3_KORTIZOL/AgAD-asAAoLd-Eo.json",
+     "kind": "lottie"
+    },
+    {
+     "title": "AgADGbMAAm4L-Eo",
+     "file": "works/emoji/3_KORTIZOL/AgADGbMAAm4L-Eo.json",
+     "kind": "lottie"
+    },
+    {
+     "title": "AgADO60AArTyAAFL",
+     "file": "works/emoji/3_KORTIZOL/AgADO60AArTyAAFL.json",
+     "kind": "lottie"
+    },
+    {
+     "title": "AgADNJoAAmW YUs",
+     "file": "works/emoji/4_SKVRT/1_AgADNJoAAmW_YUs.json",
+     "kind": "lottie"
+    },
+    {
+     "title": "AgADh58AAg5DYUs",
+     "file": "works/emoji/4_SKVRT/AgADh58AAg5DYUs.json",
+     "kind": "lottie"
+    },
+    {
+     "title": "AgADIqYAAgSpYEs",
+     "file": "works/emoji/4_SKVRT/AgADIqYAAgSpYEs.json",
+     "kind": "lottie"
+    },
+    {
+     "title": "AgADvpkAAmVdYUs",
+     "file": "works/emoji/4_SKVRT/AgADvpkAAmVdYUs.json",
+     "kind": "lottie"
+    },
+    {
+     "title": "AgADvqAAAjZcYEs",
+     "file": "works/emoji/4_SKVRT/AgADvqAAAjZcYEs.json",
+     "kind": "lottie"
+    },
+    {
+     "title": "AgADYq4AAvF4eUk",
+     "file": "works/emoji/5_TRUDI/AgADYq4AAvF4eUk.json",
+     "kind": "lottie"
     }
    ]
   },
   {
    "id": "vector",
-   "name": "Вектор",
-   "groups": [
+   "name": "vector",
+   "works": [
     {
-     "name": "LEWDLY",
-     "works": [
-      {
-       "title": "Comp 2 svg 000",
-       "file": "works/vector/LEWDLY/Comp_2_svg_000.svg",
-       "kind": "img"
-      },
-      {
-       "title": "Comp 3 svg 000",
-       "file": "works/vector/LEWDLY/Comp_3_svg_000.svg",
-       "kind": "img"
-      }
-     ]
+     "title": "Comp 2 svg 000",
+     "file": "works/vector/LEWDLY/Comp_2_svg_000.svg",
+     "kind": "img"
     },
     {
-     "name": "Lumi",
-     "works": [
-      {
-       "title": "lumi LWD AgADPKUAAi3UcEs svg 000",
-       "file": "works/vector/Lumi/1_lumi_LWD_AgADPKUAAi3UcEs_svg_000.svg",
-       "kind": "img"
-      },
-      {
-       "title": "AgADiaMAAvJgUEs svg 046",
-       "file": "works/vector/Lumi/AgADiaMAAvJgUEs_svg_046.svg",
-       "kind": "img"
-      }
-     ]
+     "title": "Comp 3 svg 000",
+     "file": "works/vector/LEWDLY/Comp_3_svg_000.svg",
+     "kind": "img"
+    },
+    {
+     "title": "lumi LWD AgADPKUAAi3UcEs svg 000",
+     "file": "works/vector/Lumi/1_lumi_LWD_AgADPKUAAi3UcEs_svg_000.svg",
+     "kind": "img"
+    },
+    {
+     "title": "AgADiaMAAvJgUEs svg 046",
+     "file": "works/vector/Lumi/AgADiaMAAvJgUEs_svg_046.svg",
+     "kind": "img"
     }
    ]
   }
